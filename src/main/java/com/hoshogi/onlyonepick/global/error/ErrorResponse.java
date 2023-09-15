@@ -1,10 +1,12 @@
 package com.hoshogi.onlyonepick.global.error;
 
 import lombok.Builder;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+@Getter
 public class ErrorResponse {
 
     private final String timestamp = LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME);
@@ -22,8 +24,8 @@ public class ErrorResponse {
 
     public static ErrorResponse of(ErrorCode errorCode) {
         return ErrorResponse.builder()
-                .status(errorCode.getHttpStatus().value())
                 .code(errorCode.getCode())
+                .status(errorCode.getHttpStatus().value())
                 .message(errorCode.getMessage())
                 .build();
     }

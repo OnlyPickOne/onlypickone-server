@@ -3,8 +3,10 @@ package com.hoshogi.onlyonepick.global.common.response;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.hoshogi.onlyonepick.global.error.ErrorCode;
 import lombok.Builder;
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
+@Getter
 public class ApiResponse<T> {
 
     private Integer status;

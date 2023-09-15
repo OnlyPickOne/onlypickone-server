@@ -1,6 +1,5 @@
 package com.hoshogi.onlyonepick.global.error;
 
-import com.hoshogi.onlyonepick.global.error.exception.BadRequestException;
 import com.hoshogi.onlyonepick.global.error.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -11,9 +10,9 @@ import static org.springframework.http.HttpStatus.*;
 
 @ControllerAdvice
 @Slf4j
-public class GlobalExceptionHandler {
+public class GlobalExceptionHandler{
 
-    @ExceptionHandler(BadRequestException.class)
+    @ExceptionHandler(BusinessException.class)
     protected ResponseEntity<ErrorResponse> handleBusinessException(final BusinessException e) {
         log.error("handleBusinessException", e);
         return new ResponseEntity<>(ErrorResponse.of(e.getErrorCode()), e.getErrorCode().getHttpStatus());
