@@ -1,7 +1,6 @@
 package com.hoshogi.onlyonepick.global.common.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.hoshogi.onlyonepick.global.error.ErrorCode;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
@@ -9,7 +8,7 @@ import org.springframework.http.HttpStatus;
 @Getter
 public class ApiResponse<T> {
 
-    private Integer status;
+    private int status;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String code;
     private Boolean isSuccess;
@@ -18,7 +17,7 @@ public class ApiResponse<T> {
     private T data;
 
     @Builder
-    public ApiResponse(Integer status, String code, Boolean isSuccess, String message, T data) {
+    public ApiResponse(int status, String code, Boolean isSuccess, String message, T data) {
         this.status = status;
         this.code = code;
         this.isSuccess = isSuccess;
