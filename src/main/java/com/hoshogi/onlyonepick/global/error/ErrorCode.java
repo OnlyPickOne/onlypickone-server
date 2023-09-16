@@ -17,6 +17,11 @@ public enum ErrorCode {
     /** Version */
     VERSION_NOT_FOUND(BAD_REQUEST, "V000", "버전 정보가 없습니다."),
 
+    /** Mail */
+    UNABLE_TO_SEND_EMAIL(BAD_REQUEST, "MAIL000", "메일 전송을 할 수 없습니다."),
+    NO_SUCH_ALGORITHM(BAD_REQUEST, "MAIL001", "인증 번호를 생성할 수 없습니다."),
+    INVALID_AUTH_CODE(BAD_REQUEST, "MAIL002", "유효하지 않은 인증번호 입니다."),
+
     /** Member */
     DUPLICATE_MEMBER(BAD_REQUEST, "AUTH000", "이미 존재하는 E-mail 입니다.");
 
