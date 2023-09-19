@@ -48,10 +48,10 @@ public class SecurityConfig {
 
                 .and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/versions").permitAll()
-                .antMatchers("/auth/signup").permitAll()
-                .antMatchers("/auth/login").permitAll()
-                .antMatchers("/auth/reissue").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/v1/versions").permitAll()
+                .antMatchers("/api/v1/auth/signup").permitAll()
+                .antMatchers("/api/v1/auth/login").permitAll()
+                .antMatchers("/api/v1/auth/reissue").permitAll()
                 .anyRequest().authenticated()
 
                 .and()
