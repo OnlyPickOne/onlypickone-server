@@ -4,7 +4,7 @@ import com.hoshogi.onlyonepick.domain.mail.dto.request.SendCodeRequest;
 import com.hoshogi.onlyonepick.domain.mail.dto.request.VerifyCodeRequest;
 import com.hoshogi.onlyonepick.domain.mail.entity.Mail;
 import com.hoshogi.onlyonepick.domain.mail.repository.MailRedisRepository;
-import com.hoshogi.onlyonepick.domain.member.repository.MemberRepository;
+import com.hoshogi.onlyonepick.domain.member.service.VerifyMemberService;
 import com.hoshogi.onlyonepick.global.error.ErrorCode;
 import com.hoshogi.onlyonepick.global.error.exception.BadRequestException;
 import com.hoshogi.onlyonepick.infra.email.EmailService;
@@ -22,9 +22,10 @@ public class MailServiceImpl implements MailService {
 
     private final EmailService emailService;
     private final MailRedisRepository mailRedisRepository;
-    private final MemberRepository memberRepository;
+    private final VerifyMemberService verifyMemberService;
 
     private final Long TIME_TO_LIVE = 10 * 60L;
+    private final Long AUTH_CODE_LENGTH = 6L;
 
     @Override
     @Transactional
@@ -46,27 +47,19 @@ public class MailServiceImpl implements MailService {
         Mail mail = mailRedisRepository.findById(request.getEmail())
                 .orElseThrow(() -> new BadRequestException(ErrorCode.INVALID_AUTH_CODE));
         mail.verifyAuthCode(request.getCode());
-        verifyMemberIsDuplicated(request.getEmail());
+        verifyMemberService.verifyMemberIsDuplicated(request.getEmail());
     }
 
     private String createAuthCode() {
-        int length = 6;
-
         try {
             Random random = SecureRandom.getInstanceStrong();
             StringBuilder authCode = new StringBuilder();
-            for (int i = 0; i < length; i++) {
+            for (int i = 0; i < AUTH_CODE_LENGTH; i++) {
                 authCode.append(random.nextInt(10));
             }
             return authCode.toString();
         } catch (NoSuchAlgorithmException e) {
             throw new BadRequestException(ErrorCode._BAD_REQUEST);
-        }
-    }
-
-    private void verifyMemberIsDuplicated(String email) {
-        if (memberRepository.existsByEmail(email)) {
-            throw new BadRequestException(ErrorCode.DUPLICATE_MEMBER);
         }
     }
 }
