@@ -18,8 +18,8 @@ CREATE TABLE member
     `member_id`   BIGINT          NOT NULL    AUTO_INCREMENT,
     `email`       VARCHAR(320)    NOT NULL,
     `password`    VARCHAR(255)    NOT NULL,
-    `authority`   VARCHAR(10)     NOT NULL,
-    `deleted`     TINYINT         NOT NULL,
+    `authority`   VARCHAR(10)     NOT NULL    DEFAULT 'ROLE_USER',
+    `deleted`     TINYINT(1)      NOT NULL    DEFAULT 0,
     `created_at`  TIMESTAMP       NOT NULL,
     `updated_at`  TIMESTAMP       NOT NULL,
     PRIMARY KEY (member_id)

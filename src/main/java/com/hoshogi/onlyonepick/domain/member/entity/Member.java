@@ -29,7 +29,7 @@ public class Member extends TimeBaseEntity {
     @Enumerated(EnumType.STRING)
     private Authority authority;
 
-    @Column(name = "deleted", nullable = false)
+    @Column(columnDefinition = "tinyint(1) not null default 0")
     private Boolean deleted;
 
     @Builder
