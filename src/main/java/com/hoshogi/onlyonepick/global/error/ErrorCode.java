@@ -14,6 +14,13 @@ public enum ErrorCode {
     _INTERNAL_SERVER_ERROR(INTERNAL_SERVER_ERROR, "C000", "서버 에러, 관리자에게 문의 바랍니다."),
     _BAD_REQUEST(BAD_REQUEST, "C001", "잘못된 요청 입니다."),
 
+    /** Auth */
+    UNAUTHORIZED_ACCESS(UNAUTHORIZED, "AUTH000", "권한이 없습니다."),
+    FORBIDDEN_USER(FORBIDDEN, "AUTH001", "권한이 없는 유저 입니다"),
+    INVALID_TOKEN(BAD_REQUEST, "AUTH002", "유효하지 않은 토큰 입니다"),
+    LOGIN_FAILED(UNAUTHORIZED, "AUTH003", "로그인에 실패했습니다"),
+    INVALID_AUTH_TOKEN(UNAUTHORIZED, "AUTH004", "권한 정보가 없는 토큰 입니다"),
+
     /** Version */
     VERSION_NOT_FOUND(BAD_REQUEST, "V000", "버전 정보가 없습니다."),
 
