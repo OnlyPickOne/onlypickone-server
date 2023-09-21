@@ -1,7 +1,6 @@
 package com.hoshogi.onlyonepick.global.config.jwt;
 
 import com.hoshogi.onlyonepick.domain.auth.dto.response.TokenResponse;
-import com.hoshogi.onlyonepick.domain.member.entity.Member;
 import com.hoshogi.onlyonepick.global.error.ErrorCode;
 import com.hoshogi.onlyonepick.global.error.exception.UnauthorizedException;
 import io.jsonwebtoken.*;

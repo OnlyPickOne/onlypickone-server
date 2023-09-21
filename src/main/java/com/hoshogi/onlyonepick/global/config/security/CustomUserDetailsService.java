@@ -2,8 +2,6 @@ package com.hoshogi.onlyonepick.global.config.security;
 
 import com.hoshogi.onlyonepick.domain.member.entity.Member;
 import com.hoshogi.onlyonepick.domain.member.repository.MemberRepository;
-import com.hoshogi.onlyonepick.global.error.ErrorCode;
-import com.hoshogi.onlyonepick.global.error.exception.UnauthorizedException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -27,7 +25,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return memberRepository.findByEmail(username)
                 .map(this::createUserDetails)
-                .orElseThrow(() -> new UnauthorizedException(ErrorCode.LOGIN_FAILED));
+                .orElseThrow(() -> new UsernameNotFoundException(username + "이 DB에 존재하지 않습니다."));
     }
 
     private UserDetails createUserDetails(Member member) {
