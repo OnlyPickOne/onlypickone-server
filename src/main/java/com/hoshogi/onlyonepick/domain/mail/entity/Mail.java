@@ -19,9 +19,7 @@ public class Mail {
 
     @Id
     private String email;
-
     private String authCode;
-
     @TimeToLive
     private Long ttl;
 

@@ -17,7 +17,6 @@ public class Version extends TimeBaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "version_id")
     private Long versionId;
-
     @Column(length = 20, nullable = false)
     private String minimum;
     @Column(length = 20, nullable = false)

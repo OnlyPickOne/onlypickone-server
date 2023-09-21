@@ -49,6 +49,8 @@ public class SecurityConfig {
                 .and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/api/v1/versions").permitAll()
+                .antMatchers("/api/v1/mails").permitAll()
+                .antMatchers("/api/v1/mails/verify").permitAll()
                 .antMatchers("/api/v1/auth/signup").permitAll()
                 .antMatchers("/api/v1/auth/login").permitAll()
                 .antMatchers("/api/v1/auth/reissue").permitAll()
