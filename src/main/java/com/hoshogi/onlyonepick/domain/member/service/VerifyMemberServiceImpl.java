@@ -1,5 +1,6 @@
 package com.hoshogi.onlyonepick.domain.member.service;
 
+import com.hoshogi.onlyonepick.domain.member.entity.Member;
 import com.hoshogi.onlyonepick.domain.member.repository.MemberRepository;
 import com.hoshogi.onlyonepick.global.error.ErrorCode;
 import com.hoshogi.onlyonepick.global.error.exception.BadRequestException;
@@ -17,5 +18,11 @@ public class VerifyMemberServiceImpl implements VerifyMemberService {
         if (memberRepository.existsByEmail(email)) {
             throw new BadRequestException(ErrorCode.DUPLICATE_MEMBER);
         }
+    }
+
+    @Override
+    public Member findById(Long memberId) {
+        return memberRepository.findById(memberId)
+                .orElseThrow(() -> new BadRequestException(ErrorCode.MEMBER_NOT_FOUND));
     }
 }

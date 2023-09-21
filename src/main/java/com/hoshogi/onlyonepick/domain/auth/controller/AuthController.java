@@ -1,7 +1,6 @@
 package com.hoshogi.onlyonepick.domain.auth.controller;
 
-import com.hoshogi.onlyonepick.domain.auth.dto.request.LoginRequest;
-import com.hoshogi.onlyonepick.domain.auth.dto.request.SignUpRequest;
+import com.hoshogi.onlyonepick.domain.auth.dto.request.AuthRequest;
 import com.hoshogi.onlyonepick.domain.auth.dto.request.TokenRequest;
 import com.hoshogi.onlyonepick.domain.auth.dto.response.TokenResponse;
 import com.hoshogi.onlyonepick.domain.auth.service.AuthService;
@@ -20,13 +19,13 @@ public class AuthController {
 
     @PostMapping("/signup")
     @ResponseStatus(CREATED)
-    ApiResponse<?> signUp(@RequestBody SignUpRequest request) {
+    ApiResponse<?> signUp(@RequestBody AuthRequest request) {
         authService.signUp(request);
         return ApiResponse.onSuccess(CREATED);
     }
 
     @PostMapping("/login")
-    ApiResponse<TokenResponse> login(@RequestBody LoginRequest request) {
+    ApiResponse<TokenResponse> login(@RequestBody AuthRequest request) {
         return ApiResponse.onSuccess(OK, authService.login(request));
     }
 

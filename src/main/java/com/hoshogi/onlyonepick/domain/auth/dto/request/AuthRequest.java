@@ -4,11 +4,12 @@ import com.hoshogi.onlyonepick.domain.member.entity.Authority;
 import com.hoshogi.onlyonepick.domain.member.entity.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Getter
 @NoArgsConstructor
-public class SignUpRequest {
+public class AuthRequest {
 
     private String email;
     private String password;
@@ -20,5 +21,9 @@ public class SignUpRequest {
                 .authority(Authority.ROLE_USER)
                 .deleted(false)
                 .build();
+    }
+
+    public UsernamePasswordAuthenticationToken toAuthentication() {
+        return new UsernamePasswordAuthenticationToken(email, password);
     }
 }

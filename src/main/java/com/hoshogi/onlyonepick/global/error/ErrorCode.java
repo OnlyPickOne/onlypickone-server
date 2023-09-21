@@ -20,6 +20,8 @@ public enum ErrorCode {
     INVALID_TOKEN(BAD_REQUEST, "AUTH002", "유효하지 않은 토큰 입니다"),
     LOGIN_FAILED(UNAUTHORIZED, "AUTH003", "로그인에 실패했습니다"),
     INVALID_AUTH_TOKEN(UNAUTHORIZED, "AUTH004", "권한 정보가 없는 토큰 입니다"),
+    INVALID_REFRESH_TOKEN(BAD_REQUEST, "AUTH005", "Refresh Token이 유효하지 않습니다"),
+    REFRESH_TOKEN_NOT_FOUND(BAD_REQUEST, "AUTH006", "로그아웃 된 사용자입니다"),
 
     /** Version */
     VERSION_NOT_FOUND(BAD_REQUEST, "V000", "버전 정보가 없습니다."),
@@ -30,7 +32,8 @@ public enum ErrorCode {
     INVALID_AUTH_CODE(BAD_REQUEST, "MAIL002", "유효하지 않은 인증번호 입니다."),
 
     /** Member */
-    DUPLICATE_MEMBER(BAD_REQUEST, "AUTH000", "이미 존재하는 E-mail 입니다.");
+    DUPLICATE_MEMBER(BAD_REQUEST, "MEMBER000", "이미 존재하는 E-mail 입니다."),
+    MEMBER_NOT_FOUND(BAD_REQUEST, "MEMBER001", "해당 회원이 존재하지 않습니다.");
 
     private final HttpStatus httpStatus;
     private final String code;
