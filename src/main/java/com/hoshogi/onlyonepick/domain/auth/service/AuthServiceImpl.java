@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class AuthServiceImpl implements AuthService {
 
     private final MemberRepository memberRepository;
+    private final RefreshTokenRedisRepository refreshTokenRedisRepository;
     private final VerifyMemberService verifyMemberService;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
@@ -54,6 +55,24 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public TokenResponse reissueToken(TokenRequest request) {
-        return null;
+        if (!tokenProvider.validateToken(request.getRefreshToken())) {
+            throw new BadRequestException(ErrorCode.INVALID_REFRESH_TOKEN);
+        }
+        Authentication authentication = tokenProvider.getAuthentication(request.getAccessToken());
+        RefreshToken refreshToken = refreshTokenRedisRepository.findById(request.getRefreshToken())
+                .orElseThrow(() -> new BadRequestException(ErrorCode.REFRESH_TOKEN_NOT_FOUND));
+        if (!refreshToken.getMemberId().equals(authentication.getName())) {
+            throw new BadRequestException(ErrorCode.INVALID_REFRESH_TOKEN);
+        }
+        TokenResponse response = tokenProvider.generateToken(authentication,
+                verifyMemberService.findById(Long.valueOf(authentication.getName())).getEmail());
+        RefreshToken newRefreshToken = RefreshToken.builder()
+                .token(response.getRefreshToken())
+                .memberId(authentication.getName())
+                .ttl(TIME_TO_LIVE)
+                .build();
+        refreshTokenRedisRepository.delete(refreshToken);
+        refreshTokenRedisRepository.save(newRefreshToken);
+        return response;
     }
 }
