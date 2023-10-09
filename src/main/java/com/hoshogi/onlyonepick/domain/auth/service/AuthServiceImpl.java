@@ -6,7 +6,7 @@ import com.hoshogi.onlyonepick.domain.auth.dto.response.TokenResponse;
 import com.hoshogi.onlyonepick.domain.auth.entity.RefreshToken;
 import com.hoshogi.onlyonepick.domain.auth.repository.RefreshTokenRedisRepository;
 import com.hoshogi.onlyonepick.domain.member.repository.MemberRepository;
-import com.hoshogi.onlyonepick.domain.member.service.VerifyMemberService;
+import com.hoshogi.onlyonepick.domain.member.service.MemberService;
 import com.hoshogi.onlyonepick.global.config.jwt.TokenProvider;
 import com.hoshogi.onlyonepick.global.error.ErrorCode;
 import com.hoshogi.onlyonepick.global.error.exception.BadRequestException;
@@ -22,9 +22,9 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
+    private final MemberService memberService;
     private final MemberRepository memberRepository;
     private final RefreshTokenRedisRepository refreshTokenRedisRepository;
-    private final VerifyMemberService verifyMemberService;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final TokenProvider tokenProvider;
@@ -34,7 +34,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     @Transactional
     public void signUp(AuthRequest request) {
-        verifyMemberService.verifyMemberIsDuplicated(request.getEmail());
+        memberService.verifyMemberIsDuplicated(request.getEmail());
         memberRepository.save(request.toEntity(passwordEncoder));
     }
 
@@ -65,7 +65,7 @@ public class AuthServiceImpl implements AuthService {
             throw new BadRequestException(ErrorCode.INVALID_REFRESH_TOKEN);
         }
         TokenResponse response = tokenProvider.generateToken(authentication,
-                verifyMemberService.findById(Long.valueOf(authentication.getName())).getEmail());
+                memberService.findById(Long.valueOf(authentication.getName())).getEmail());
         RefreshToken newRefreshToken = RefreshToken.builder()
                 .token(response.getRefreshToken())
                 .memberId(authentication.getName())

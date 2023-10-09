@@ -9,20 +9,20 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class VerifyMemberServiceImpl implements VerifyMemberService {
+public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
+
+    @Override
+    public Member findById(Long memberId) {
+        return memberRepository.findById(memberId)
+                .orElseThrow(() -> new BadRequestException(ErrorCode.MEMBER_NOT_FOUND));
+    }
 
     @Override
     public void verifyMemberIsDuplicated(String email) {
         if (memberRepository.existsByEmail(email)) {
             throw new BadRequestException(ErrorCode.DUPLICATE_MEMBER);
         }
-    }
-
-    @Override
-    public Member findById(Long memberId) {
-        return memberRepository.findById(memberId)
-                .orElseThrow(() -> new BadRequestException(ErrorCode.MEMBER_NOT_FOUND));
     }
 }

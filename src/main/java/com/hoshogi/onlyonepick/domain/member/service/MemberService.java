@@ -2,8 +2,8 @@ package com.hoshogi.onlyonepick.domain.member.service;
 
 import com.hoshogi.onlyonepick.domain.member.entity.Member;
 
-public interface VerifyMemberService {
+public interface MemberService {
 
-    void verifyMemberIsDuplicated(String email);
     Member findById(Long memberId);
+    void verifyMemberIsDuplicated(String email);
 }

@@ -4,7 +4,7 @@ import com.hoshogi.onlyonepick.domain.mail.dto.request.SendCodeRequest;
 import com.hoshogi.onlyonepick.domain.mail.dto.request.VerifyCodeRequest;
 import com.hoshogi.onlyonepick.domain.mail.entity.Mail;
 import com.hoshogi.onlyonepick.domain.mail.repository.MailRedisRepository;
-import com.hoshogi.onlyonepick.domain.member.service.VerifyMemberService;
+import com.hoshogi.onlyonepick.domain.member.service.MemberService;
 import com.hoshogi.onlyonepick.global.error.ErrorCode;
 import com.hoshogi.onlyonepick.global.error.exception.BadRequestException;
 import com.hoshogi.onlyonepick.infra.email.EmailService;
@@ -20,9 +20,9 @@ import java.util.Random;
 @RequiredArgsConstructor
 public class MailServiceImpl implements MailService {
 
+    private final MemberService memberService;
     private final EmailService emailService;
     private final MailRedisRepository mailRedisRepository;
-    private final VerifyMemberService verifyMemberService;
 
     private final Long TIME_TO_LIVE = 10 * 60L;
     private final Long AUTH_CODE_LENGTH = 6L;
@@ -47,7 +47,7 @@ public class MailServiceImpl implements MailService {
         Mail mail = mailRedisRepository.findById(request.getEmail())
                 .orElseThrow(() -> new BadRequestException(ErrorCode.INVALID_AUTH_CODE));
         mail.verifyAuthCode(request.getCode());
-        verifyMemberService.verifyMemberIsDuplicated(request.getEmail());
+        memberService.verifyMemberIsDuplicated(request.getEmail());
     }
 
     private String createAuthCode() {
