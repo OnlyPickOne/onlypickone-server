@@ -1,9 +1,7 @@
 package com.hoshogi.onlyonepick.domain.item.entity;
 
-
 import com.hoshogi.onlyonepick.domain.game.entity.Game;
 import com.hoshogi.onlyonepick.global.common.entity.TimeBaseEntity;
-import com.hoshogi.onlyonepick.global.util.StringUtil;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

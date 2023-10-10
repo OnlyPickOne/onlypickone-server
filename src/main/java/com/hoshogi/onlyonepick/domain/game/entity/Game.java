@@ -38,6 +38,9 @@ public class Game extends TimeBaseEntity {
     @Column(name = "view_count", columnDefinition = "bigint not null default 0")
     private Long viewCount;
 
+    @Column(name = "play_count", columnDefinition = "bigint not null default 0")
+    private Long playCount;
+
     @Column(name = "item_count", columnDefinition = "bigint not null default 0")
     private Long itemCount;
 
@@ -55,12 +58,12 @@ public class Game extends TimeBaseEntity {
     private List<Item> items = new ArrayList<>();
 
     @Builder
-    public Game(Long gameId, String title, String description, Long viewCount, Long itemCount, Long reportCount,
-                Boolean deleted, Member member) {
+    public Game(Long gameId, String title, String description, Long viewCount, Long playCount, Long itemCount, Long reportCount, Boolean deleted, Member member) {
         this.gameId = gameId;
         this.title = title;
         this.description = description;
         this.viewCount = viewCount;
+        this.playCount = playCount;
         this.itemCount = itemCount;
         this.reportCount = reportCount;
         this.deleted = deleted;
@@ -72,6 +75,7 @@ public class Game extends TimeBaseEntity {
                 .title(title)
                 .description(description)
                 .viewCount(0L)
+                .playCount(0L)
                 .itemCount(0L)
                 .reportCount(0L)
                 .deleted(false)

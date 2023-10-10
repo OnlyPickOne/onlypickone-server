@@ -32,6 +32,7 @@ CREATE TABLE game
     `title`         VARCHAR(40)     NOT NULL,
     `description`   VARCHAR(300)    NOT NULL,
     `view_count`    BIGINT          NOT NULL    DEFAULT 0,
+    `play_count`    BIGINT          NOT NULL    DEFAULT 0,
     `item_count`    BIGINT          NOT NULL    DEFAULT 0,
     `report_count`  BIGINT          NOT NULL    DEFAULT 0,
     `deleted`       TINYINT(1)      NOT NULL    DEFAULT 0,
