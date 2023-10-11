@@ -48,13 +48,9 @@ public class SecurityConfig {
 
                 .and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/api/v1/versions").permitAll()
-                .antMatchers("/api/v1/mails").permitAll()
-                .antMatchers("/api/v1/mails/verify").permitAll()
-                .antMatchers("/api/v1/auth/signup").permitAll()
-                .antMatchers("/api/v1/auth/login").permitAll()
-                .antMatchers("/api/v1/auth/reissue").permitAll()
-                .anyRequest().authenticated()
+                .antMatchers(HttpMethod.POST, "/api/v1/versions").authenticated()
+                .antMatchers(HttpMethod.POST, "/api/v1/games").authenticated()
+                .anyRequest().permitAll()
 
                 .and()
                 .apply(new JwtSecurityConfig(tokenProvider));

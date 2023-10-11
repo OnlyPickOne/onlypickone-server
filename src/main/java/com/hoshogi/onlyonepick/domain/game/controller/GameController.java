@@ -1,9 +1,12 @@
 package com.hoshogi.onlyonepick.domain.game.controller;
 
 import com.hoshogi.onlyonepick.domain.game.dto.request.CreateGameRequest;
+import com.hoshogi.onlyonepick.domain.game.dto.response.GameResponse;
 import com.hoshogi.onlyonepick.domain.game.service.GameService;
 import com.hoshogi.onlyonepick.global.common.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,5 +27,10 @@ public class GameController {
                               @RequestPart(value = "request") CreateGameRequest request) {
         gameService.createGame(request, multipartFiles);
         return ApiResponse.onSuccess(CREATED);
+    }
+
+    @GetMapping
+    ApiResponse<Page<GameResponse>> showGames(Pageable pageable) {
+        return ApiResponse.onSuccess(OK, gameService.showGames(pageable));
     }
 }
