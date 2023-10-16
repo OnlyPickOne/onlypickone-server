@@ -37,6 +37,10 @@ public enum ErrorCode {
 
     /** Game */
     UNSUPPORTED_IMAGE_EXTENSION(BAD_REQUEST, "GAME000", "지원하지 않는 확장자 입니다."),
+    GAME_NOT_FOUND(BAD_REQUEST, "GAME001", "해당 게임이 존재하지 않습니다."),
+
+    /** Item */
+    ITEM_NOT_FOUND(BAD_REQUEST, "ITEM000", "해당 아이템이 존재하지 않습니다."),
 
     /** S3 */
     S3_SERVER_ERROR(BAD_REQUEST, "S3000", "Amazon S3가 처리할 수 없는 요청입니다."),

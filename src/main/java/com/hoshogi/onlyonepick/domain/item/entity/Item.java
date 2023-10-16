@@ -60,4 +60,12 @@ public class Item extends TimeBaseEntity {
                 .game(game)
                 .build();
     }
+
+    public void increaseWinCount() {
+        winCount++;
+    }
+
+    public Double getStats() {
+        return 100.0 * winCount / this.getGame().getPlayCount();
+    }
 }

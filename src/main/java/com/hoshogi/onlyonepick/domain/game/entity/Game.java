@@ -88,4 +88,8 @@ public class Game extends TimeBaseEntity {
         this.items.addAll(items);
         itemCount += items.size();
     }
+
+    public void increasePlayCount() {
+        playCount++;
+    }
 }
