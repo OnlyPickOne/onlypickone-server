@@ -29,4 +29,9 @@ public class GameController {
     ApiResponse<Page<GameResponse>> showGames(Pageable pageable) {
         return ApiResponse.onSuccess(OK, gameService.showGames(pageable));
     }
+
+    @GetMapping("/{game-id}/items")
+    ApiResponse<?> showGameItems(@PathVariable("game-id") Long gameId, @RequestParam Long count) {
+        return ApiResponse.onSuccess(OK, gameService.showGameItems(gameId, count));
+    }
 }
