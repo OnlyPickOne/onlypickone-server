@@ -28,12 +28,19 @@ public class S3Service {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    public List<String> uploadFiles(List<MultipartFile> multipartFiles, String dirName) throws IOException {
+    public List<String> uploadFiles(List<MultipartFile> multipartFiles, String dirName) {
         List<String> imageUrls = new ArrayList<>();
         for (MultipartFile multipartFile : multipartFiles) {
-            File uploadFile = convert(multipartFile)
-                    .orElseThrow(() -> new BadRequestException(ErrorCode.S3_SERVER_ERROR));
-            imageUrls.add(upload(uploadFile, dirName));
+            try {
+                File uploadFile = convert(multipartFile)
+                        .orElseThrow(() -> new BadRequestException(ErrorCode.S3_SERVER_ERROR));
+                imageUrls.add(upload(uploadFile, dirName));
+            } catch (IOException e) {
+                for (String imageUrl : imageUrls) {
+                    deleteS3(imageUrl);
+                }
+                throw new BadRequestException(ErrorCode.S3_SERVER_ERROR);
+            }
         }
         return imageUrls;
     }
