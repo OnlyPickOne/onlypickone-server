@@ -30,6 +30,14 @@ public class Mail {
         this.ttl = ttl;
     }
 
+    public static Mail create(String email, String authCode, Long ttl) {
+        return Mail.builder()
+                .email(email)
+                .authCode(authCode)
+                .ttl(ttl)
+                .build();
+    }
+
     public void verifyAuthCode(String authCode) {
         if (!this.authCode.equals(authCode)) {
             throw new BadRequestException(ErrorCode.INVALID_AUTH_CODE);

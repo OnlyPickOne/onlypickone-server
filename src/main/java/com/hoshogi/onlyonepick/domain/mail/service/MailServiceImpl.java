@@ -24,30 +24,26 @@ public class MailServiceImpl implements MailService {
     private final EmailService emailService;
     private final MailRedisRepository mailRedisRepository;
 
+    private final String MAIL_SUBJECT = "Only One Pick 이메일 인증 번호";
     private final Long TIME_TO_LIVE = 10 * 60L;
     private final Long AUTH_CODE_LENGTH = 6L;
 
     @Override
     @Transactional
     public void sendAuthCodeToEmail(SendCodeRequest request) {
-        String subject = "Only One Pick 이메일 인증 번호";
+        memberService.verifyMemberIsDuplicated(request.getEmail());
         String authCode = createAuthCode();
-        emailService.sendEmail(request.getEmail(), subject, authCode);
-        Mail mail = Mail.builder()
-                        .email(request.getEmail())
-                        .authCode(authCode)
-                        .ttl(TIME_TO_LIVE)
-                        .build();
-        mailRedisRepository.save(mail);
+        emailService.sendEmail(request.getEmail(), MAIL_SUBJECT, authCode);
+        mailRedisRepository.save(Mail.create(request.getEmail(), authCode, TIME_TO_LIVE));
     }
 
     @Override
     @Transactional(readOnly = true)
     public void verifyAuthCode(VerifyCodeRequest request) {
+        memberService.verifyMemberIsDuplicated(request.getEmail());
         Mail mail = mailRedisRepository.findById(request.getEmail())
                 .orElseThrow(() -> new BadRequestException(ErrorCode.INVALID_AUTH_CODE));
         mail.verifyAuthCode(request.getCode());
-        memberService.verifyMemberIsDuplicated(request.getEmail());
     }
 
     private String createAuthCode() {
