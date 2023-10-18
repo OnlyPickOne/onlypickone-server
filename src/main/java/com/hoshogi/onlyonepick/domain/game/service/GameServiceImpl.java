@@ -43,7 +43,6 @@ public class GameServiceImpl implements GameService {
     private String directory;
 
     private static final Long THUMBNAIL_ITEM_COUNT  = 2L;
-    private static final Long STATS_ITEM_COUNT = 10L;
 
     @Override
     @Transactional
@@ -67,9 +66,10 @@ public class GameServiceImpl implements GameService {
     @Override
     @Transactional
     public List<ShowGameStatsResponse> showGameStats(ShowGameStatsRequest request, Long gameId) {
-        findById(gameId).increasePlayCount();
+        Game game = findById(gameId);
+        game.increasePlayCount();
         itemService.findById(request.getWinItemId()).increaseWinCount();
-        return itemRepository.findTopByGameOrderByWinCountDesc(gameId, STATS_ITEM_COUNT)
+        return itemRepository.findByGameOrderByWinCountDesc(game)
                 .stream()
                 .map(ShowGameStatsResponse::new)
                 .collect(Collectors.toList());
