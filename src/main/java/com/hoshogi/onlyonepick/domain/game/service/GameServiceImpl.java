@@ -16,6 +16,7 @@ import com.hoshogi.onlyonepick.domain.member.service.MemberService;
 import com.hoshogi.onlyonepick.domain.model.ImageExtension;
 import com.hoshogi.onlyonepick.global.error.ErrorCode;
 import com.hoshogi.onlyonepick.global.error.exception.BadRequestException;
+import com.hoshogi.onlyonepick.global.error.exception.ForbiddenException;
 import com.hoshogi.onlyonepick.global.util.SecurityUtil;
 import com.hoshogi.onlyonepick.global.util.StringUtil;
 import com.hoshogi.onlyonepick.infra.s3.S3Service;
@@ -87,6 +88,17 @@ public class GameServiceImpl implements GameService {
                 .stream()
                 .map(ShowGameItemResponse::new)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public void deleteGame(Long gameId) {
+        Member member = memberService.findById(SecurityUtil.getCurrentMemberId());
+        Game game = findById(gameId);
+        if (!member.isAdmin() && game.getMember() != member) {
+            throw new ForbiddenException(ErrorCode.FORBIDDEN_USER);
+        }
+        gameRepository.delete(game);
     }
 
     private List<Item> createItems(List<MultipartFile> multipartFiles, Game game) {

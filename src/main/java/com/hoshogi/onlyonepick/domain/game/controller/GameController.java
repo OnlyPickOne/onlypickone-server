@@ -35,6 +35,12 @@ public class GameController {
         return ApiResponse.onSuccess(OK, gameService.showGames(pageable));
     }
 
+    @DeleteMapping("/{game-id}")
+    ApiResponse<?> deleteGame(@PathVariable("game-id") Long gameId) {
+        gameService.deleteGame(gameId);
+        return ApiResponse.onSuccess(OK);
+    }
+
     @PostMapping({"/{game-id}/items"})
     ApiResponse<List<ShowGameStatsResponse>> showGameStats(@PathVariable("game-id") Long gameId,
                                                            @RequestBody ShowGameStatsRequest request) {

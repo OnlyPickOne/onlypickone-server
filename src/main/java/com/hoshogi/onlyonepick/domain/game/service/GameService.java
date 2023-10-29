@@ -14,6 +14,7 @@ public interface GameService {
 
     void createGame(CreateGameRequest request);
     Page<GameResponse> showGames(Pageable pageable);
+    void deleteGame(Long gameId);
     List<ShowGameStatsResponse> showGameStats(ShowGameStatsRequest request, Long gameId);
     List<ShowGameItemResponse> showGameItems(Long gameId, Long count);
 }
