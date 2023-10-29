@@ -40,4 +40,11 @@ public class Member extends TimeBaseEntity {
         this.authority = authority;
         this.deleted = deleted;
     }
+
+    public Boolean isAdmin() {
+        if (authority == Authority.ROLE_ADMIN) {
+            return true;
+        }
+        return false;
+    }
 }

@@ -7,7 +7,7 @@ import lombok.Getter;
 public class ForbiddenException extends BusinessException {
 
     public ForbiddenException() {
-        super(ErrorCode.UNAUTHORIZED_ACCESS, ErrorCode.UNAUTHORIZED_ACCESS.getMessage());
+        super(ErrorCode.FORBIDDEN_USER, ErrorCode.FORBIDDEN_USER.getMessage());
     }
 
     public ForbiddenException(ErrorCode errorCode) {
@@ -15,6 +15,6 @@ public class ForbiddenException extends BusinessException {
     }
 
     public ForbiddenException(String message) {
-        super(ErrorCode.UNAUTHORIZED_ACCESS, message);
+        super(ErrorCode.FORBIDDEN_USER, message);
     }
 }
