@@ -10,6 +10,8 @@ import com.hoshogi.onlyonepick.domain.game.repository.GameRepository;
 import com.hoshogi.onlyonepick.domain.item.entity.Item;
 import com.hoshogi.onlyonepick.domain.item.repository.ItemRepository;
 import com.hoshogi.onlyonepick.domain.item.service.ItemService;
+import com.hoshogi.onlyonepick.domain.like.repository.LikeRepository;
+import com.hoshogi.onlyonepick.domain.member.entity.Member;
 import com.hoshogi.onlyonepick.domain.member.service.MemberService;
 import com.hoshogi.onlyonepick.domain.model.ImageExtension;
 import com.hoshogi.onlyonepick.global.error.ErrorCode;
@@ -38,6 +40,7 @@ public class GameServiceImpl implements GameService {
     private final S3Service s3Service;
     private final GameRepository gameRepository;
     private final ItemRepository itemRepository;
+    private final LikeRepository likeRepository;
 
     @Value("${cloud.aws.s3.directory}")
     private String directory;
@@ -56,11 +59,13 @@ public class GameServiceImpl implements GameService {
     @Override
     @Transactional(readOnly = true)
     public Page<GameResponse> showGames(Pageable pageable) {
+        Member member = memberService.findById(SecurityUtil.getCurrentMemberId());
         return gameRepository.findAll(pageable).map(game ->
-                new GameResponse(game, itemRepository.findTopByGameOrderByWinCountDesc(game.getGameId(), THUMBNAIL_ITEM_COUNT)
-                        .stream()
-                        .map(Item::getImageUrl)
-                        .collect(Collectors.toList())));
+                new GameResponse(game, isLikedByMember(member, game), isCreatedByMember(member, game),
+                        itemRepository.findTopByGameOrderByWinCountDesc(game.getGameId(), THUMBNAIL_ITEM_COUNT)
+                                .stream()
+                                .map(Item::getImageUrl)
+                                .collect(Collectors.toList())));
     }
 
     @Override
@@ -105,6 +110,17 @@ public class GameServiceImpl implements GameService {
                 throw new BadRequestException(ErrorCode.UNSUPPORTED_IMAGE_EXTENSION);
             }
         }
+    }
+
+    private Boolean isLikedByMember(Member member, Game game) {
+        return likeRepository.existsByMemberAndGame(member, game);
+    }
+
+    private Boolean isCreatedByMember(Member member, Game game) {
+        if (game.getMember() == member) {
+            return true;
+        }
+        return false;
     }
 
     private Game findById(Long gameId) {

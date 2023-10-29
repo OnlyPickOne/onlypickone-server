@@ -57,3 +57,17 @@ CREATE TABLE item
     PRIMARY KEY (item_id),
     FOREIGN KEY (game_id) REFERENCES game(game_id)
 );
+
+-- Create like table
+CREATE TABLE likes
+(
+    `like_id`    BIGINT        NOT NULL    AUTO_INCREMENT,
+    `deleted`    TINYINT(1)    NOT NULL,
+    `member_id`  BIGINT        NOT NULL,
+    `game_id`    BIGINT        NOT NULL,
+    `created_at` TIMESTAMP     NOT NULL,
+    `updated_at` TIMESTAMP     NOT NULL,
+    PRIMARY KEY (like_id),
+    FOREIGN KEY (member_id) REFERENCES member(member_id),
+    FOREIGN KEY (game_id) REFERENCES game(game_id)
+);

@@ -49,7 +49,7 @@ public class SecurityConfig {
                 .and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/v1/versions").authenticated()
-                .antMatchers(HttpMethod.POST, "/api/v1/games").authenticated()
+                .antMatchers("/api/v1/games").authenticated()
                 .anyRequest().permitAll()
 
                 .and()
