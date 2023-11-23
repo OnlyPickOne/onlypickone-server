@@ -5,6 +5,7 @@ import com.hoshogi.onlyonepick.domain.game.dto.request.ShowGameStatsRequest;
 import com.hoshogi.onlyonepick.domain.game.dto.response.GameResponse;
 import com.hoshogi.onlyonepick.domain.game.dto.response.ShowGameItemResponse;
 import com.hoshogi.onlyonepick.domain.game.dto.response.ShowGameStatsResponse;
+import com.hoshogi.onlyonepick.domain.game.entity.Game;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -17,4 +18,5 @@ public interface GameService {
     void deleteGame(Long gameId);
     List<ShowGameStatsResponse> showGameStats(ShowGameStatsRequest request, Long gameId);
     List<ShowGameItemResponse> showGameItems(Long gameId, Long count);
+    Game findById(Long gameId);
 }

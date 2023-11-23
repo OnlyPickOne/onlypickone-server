@@ -63,7 +63,7 @@ public class GameServiceImpl implements GameService {
         Member member = memberService.findById(SecurityUtil.getCurrentMemberId());
         return gameRepository.findAll(pageable).map(game ->
                 new GameResponse(game, isLikedByMember(member, game), isCreatedByMember(member, game),
-                        itemRepository.findTopByGameOrderByWinCountDesc(game.getGameId(), THUMBNAIL_ITEM_COUNT)
+                        itemRepository.findTopByGameOrderByWinCountDesc(game.getId(), THUMBNAIL_ITEM_COUNT)
                                 .stream()
                                 .map(Item::getImageUrl)
                                 .collect(Collectors.toList())));
@@ -101,6 +101,13 @@ public class GameServiceImpl implements GameService {
         gameRepository.delete(game);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public Game findById(Long gameId) {
+         return gameRepository.findById(gameId)
+                .orElseThrow(() -> new BadRequestException(ErrorCode.GAME_NOT_FOUND));
+    }
+
     private List<Item> createItems(List<MultipartFile> multipartFiles, Game game) {
         List<Item> items = new ArrayList<>();
         List<String> imageUrls = uploadImageToS3(multipartFiles);
@@ -133,10 +140,5 @@ public class GameServiceImpl implements GameService {
             return true;
         }
         return false;
-    }
-
-    private Game findById(Long gameId) {
-        return gameRepository.findById(gameId)
-                .orElseThrow(() -> new BadRequestException(ErrorCode.GAME_NOT_FOUND));
     }
 }
