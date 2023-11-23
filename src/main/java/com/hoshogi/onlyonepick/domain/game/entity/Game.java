@@ -27,7 +27,7 @@ public class Game extends TimeBaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "game_id")
-    private Long gameId;
+    private Long id;
 
     @Column(nullable = false, length = 40)
     private String title;
@@ -58,9 +58,9 @@ public class Game extends TimeBaseEntity {
     private List<Item> items = new ArrayList<>();
 
     @Builder
-    public Game(Long gameId, String title, String description, Long playCount, Long likeCount, Long itemCount,
+    public Game(Long id, String title, String description, Long playCount, Long likeCount, Long itemCount,
                 Long reportCount, Boolean deleted, Member member) {
-        this.gameId = gameId;
+        this.id = id;
         this.title = title;
         this.description = description;
         this.playCount = playCount;
@@ -91,5 +91,13 @@ public class Game extends TimeBaseEntity {
 
     public void increasePlayCount() {
         playCount++;
+    }
+
+    public void increaseLikeCount() {
+        likeCount++;
+    }
+
+    public void decreaseLikeCount() {
+        likeCount--;
     }
 }

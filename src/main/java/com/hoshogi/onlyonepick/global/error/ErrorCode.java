@@ -42,6 +42,10 @@ public enum ErrorCode {
     /** Item */
     ITEM_NOT_FOUND(BAD_REQUEST, "ITEM000", "해당 아이템이 존재하지 않습니다."),
 
+    /** Like */
+    DUPLICATE_LIKE(BAD_REQUEST, "LIKE000", "이미 존재하는 좋아요 입니다."),
+    LIKE_NOT_FOUND(BAD_REQUEST, "LIKE001", "해당 좋아요가 존재하지 않습니다."),
+
     /** S3 */
     S3_SERVER_ERROR(BAD_REQUEST, "S3000", "Amazon S3가 처리할 수 없는 요청입니다."),
     S3_CONNECTION_ERROR(BAD_REQUEST, "S3001", "Amazon S3에 연결할 수 없습니다.");
