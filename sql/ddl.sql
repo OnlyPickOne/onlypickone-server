@@ -19,7 +19,7 @@ CREATE TABLE member
     `email`       VARCHAR(320)    NOT NULL,
     `password`    VARCHAR(255)    NOT NULL,
     `authority`   VARCHAR(10)     NOT NULL    DEFAULT 'ROLE_USER',
-    `deleted`     TINYINT(1)      NOT NULL    DEFAULT 0,
+    `is_deleted`  TINYINT(1)      NOT NULL    DEFAULT 0,
     `created_at`  TIMESTAMP       NOT NULL,
     `updated_at`  TIMESTAMP       NOT NULL,
     PRIMARY KEY (member_id)
@@ -35,7 +35,7 @@ CREATE TABLE game
     `like_count`    BIGINT          NOT NULL    DEFAULT 0,
     `item_count`    BIGINT          NOT NULL    DEFAULT 0,
     `report_count`  BIGINT          NOT NULL    DEFAULT 0,
-    `deleted`       TINYINT(1)      NOT NULL    DEFAULT 0,
+    `is_deleted`    TINYINT(1)      NOT NULL    DEFAULT 0,
     `member_id`     BIGINT          NOT NULL,
     `created_at`    TIMESTAMP       NOT NULL,
     `updated_at`    TIMESTAMP       NOT NULL,
@@ -50,7 +50,7 @@ CREATE TABLE item
     `image_url`   VARCHAR(2083)    NOT NULL,
     `caption`     VARCHAR(50)      NOT NULL,
     `win_count`   BIGINT           NOT NULL    DEFAULT 0,
-    `deleted`     TINYINT(1)       NOT NULL    DEFAULT 0,
+    `is_deleted`  TINYINT(1)       NOT NULL    DEFAULT 0,
     `game_id`     BIGINT           NOT NULL,
     `created_at`  TIMESTAMP        NOT NULL,
     `updated_at`  TIMESTAMP        NOT NULL,
@@ -62,12 +62,26 @@ CREATE TABLE item
 CREATE TABLE likes
 (
     `like_id`    BIGINT        NOT NULL    AUTO_INCREMENT,
-    `deleted`    TINYINT(1)    NOT NULL,
+    `is_deleted` TINYINT(1)    NOT NULL,
     `member_id`  BIGINT        NOT NULL,
     `game_id`    BIGINT        NOT NULL,
     `created_at` TIMESTAMP     NOT NULL,
     `updated_at` TIMESTAMP     NOT NULL,
     PRIMARY KEY (like_id),
+    FOREIGN KEY (member_id) REFERENCES member(member_id),
+    FOREIGN KEY (game_id) REFERENCES game(game_id)
+);
+
+-- Create report table
+CREATE TABLE report
+(
+    `report_id`  BIGINT        NOT NULL    AUTO_INCREMENT,
+    `is_deleted` TINYINT(1)    NOT NULL,
+    `member_id`  BIGINT        NOT NULL,
+    `game_id`    BIGINT        NOT NULL,
+    `created_at` TIMESTAMP     NOT NULL,
+    `updated_at` TIMESTAMP     NOT NULL,
+    PRIMARY KEY (report_id),
     FOREIGN KEY (member_id) REFERENCES member(member_id),
     FOREIGN KEY (game_id) REFERENCES game(game_id)
 );

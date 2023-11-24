@@ -10,14 +10,14 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@SQLDelete(sql = "UPDATE member SET deleted = true WHERE member_id = ?")
-@Where(clause = "deleted = false")
+@SQLDelete(sql = "UPDATE member SET is_deleted = true WHERE member_id = ?")
+@Where(clause = "is_deleted = false")
 public class Member extends TimeBaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
-    private Long memberId;
+    private Long id;
 
     @Column(nullable = false, length = 320)
     private String email;
@@ -29,16 +29,16 @@ public class Member extends TimeBaseEntity {
     @Enumerated(EnumType.STRING)
     private Authority authority;
 
-    @Column(columnDefinition = "tinyint(1) not null default 0")
-    private Boolean deleted;
+    @Column(name = "is_deleted", columnDefinition = "tinyint(1) not null default 0")
+    private Boolean isDeleted;
 
     @Builder
-    public Member(Long memberId, String email, String password, Authority authority, Boolean deleted) {
-        this.memberId = memberId;
+    public Member(Long id, String email, String password, Authority authority, Boolean isDeleted) {
+        this.id = id;
         this.email = email;
         this.password = password;
         this.authority = authority;
-        this.deleted = deleted;
+        this.isDeleted = isDeleted;
     }
 
     public Boolean isAdmin() {

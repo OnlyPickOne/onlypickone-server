@@ -18,9 +18,9 @@ public class VersionResponse {
         this.latest = latest;
     }
 
-    public static VersionResponse from(Version version) {
+    public static VersionResponse of(Version version) {
         return VersionResponse.builder()
-                .versionId(version.getVersionId())
+                .versionId(version.getId())
                 .minimum(version.getMinimum())
                 .latest(version.getLatest())
                 .build();

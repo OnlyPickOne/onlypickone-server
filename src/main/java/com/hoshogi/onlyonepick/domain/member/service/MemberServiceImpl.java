@@ -7,7 +7,6 @@ import com.hoshogi.onlyonepick.global.error.exception.BadRequestException;
 import com.hoshogi.onlyonepick.global.error.exception.ForbiddenException;
 import com.hoshogi.onlyonepick.global.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,7 +24,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public void deleteMember(Long memberId) {
         Member member = findById(SecurityUtil.getCurrentMemberId());
-        if (!member.isAdmin() && member.getMemberId() != memberId) {
+        if (!member.isAdmin() && member.getId() != memberId) {
             throw new ForbiddenException(ErrorCode.FORBIDDEN_USER);
         }
         memberRepository.delete(findById(memberId));

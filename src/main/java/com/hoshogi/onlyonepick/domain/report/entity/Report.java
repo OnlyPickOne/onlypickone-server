@@ -2,6 +2,7 @@ package com.hoshogi.onlyonepick.domain.report.entity;
 
 import com.hoshogi.onlyonepick.domain.game.entity.Game;
 import com.hoshogi.onlyonepick.domain.member.entity.Member;
+import com.hoshogi.onlyonepick.global.common.entity.TimeBaseEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,7 +19,7 @@ import static javax.persistence.FetchType.LAZY;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @SQLDelete(sql = "UPDATE report SET is_deleted = true WHERE report_id = ?")
 @Where(clause = "is_deleted = false")
-public class Report {
+public class Report extends TimeBaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

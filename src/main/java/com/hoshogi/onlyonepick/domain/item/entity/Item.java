@@ -16,14 +16,14 @@ import static javax.persistence.FetchType.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@SQLDelete(sql = "UPDATE item SET deleted = true WHERE item_id = ?")
-@Where(clause = "deleted = false")
+@SQLDelete(sql = "UPDATE item SET is_deleted = true WHERE item_id = ?")
+@Where(clause = "is_deleted = false")
 public class Item extends TimeBaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "item_id")
-    private Long itemId;
+    private Long id;
 
     @Column(nullable = false, length = 2083)
     private String imageUrl;
@@ -34,20 +34,20 @@ public class Item extends TimeBaseEntity {
     @Column(name = "win_count", columnDefinition = "bigint not null default 0")
     private Long winCount;
 
-    @Column(columnDefinition = "tinyint(1) not null default 0")
-    private Boolean deleted;
+    @Column(name = "is_deleted", columnDefinition = "tinyint(1) not null default 0")
+    private Boolean isDeleted;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "game_id")
     private Game game;
 
     @Builder
-    public Item(Long itemId, String imageUrl, String caption, Long winCount, Boolean deleted, Game game) {
-        this.itemId = itemId;
+    public Item(Long id, String imageUrl, String caption, Long winCount, Boolean isDeleted, Game game) {
+        this.id = id;
         this.imageUrl = imageUrl;
         this.caption = caption;
         this.winCount = winCount;
-        this.deleted = deleted;
+        this.isDeleted = isDeleted;
         this.game = game;
     }
 
@@ -56,7 +56,7 @@ public class Item extends TimeBaseEntity {
                 .imageUrl(imageUrl)
                 .caption(caption)
                 .winCount(0L)
-                .deleted(false)
+                .isDeleted(false)
                 .game(game)
                 .build();
     }

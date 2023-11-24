@@ -1,7 +1,9 @@
 package com.hoshogi.onlyonepick.domain.game.entity;
 
 import com.hoshogi.onlyonepick.domain.item.entity.Item;
+import com.hoshogi.onlyonepick.domain.like.entity.Like;
 import com.hoshogi.onlyonepick.domain.member.entity.Member;
+import com.hoshogi.onlyonepick.domain.report.entity.Report;
 import com.hoshogi.onlyonepick.global.common.entity.TimeBaseEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -20,8 +22,8 @@ import static javax.persistence.FetchType.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@SQLDelete(sql = "UPDATE game SET deleted = true WHERE game_id = ?")
-@Where(clause = "deleted = false and report_count < 10")
+@SQLDelete(sql = "UPDATE game SET is_deleted = true WHERE game_id = ?")
+@Where(clause = "is_deleted = false and report_count < 10")
 public class Game extends TimeBaseEntity {
 
     @Id
@@ -47,8 +49,8 @@ public class Game extends TimeBaseEntity {
     @Column(name = "report_count", columnDefinition = "bigint not null default 0")
     private Long reportCount;
 
-    @Column(columnDefinition = "tinyint(1) not null default 0")
-    private Boolean deleted;
+    @Column(name = "is_deleted", columnDefinition = "tinyint(1) not null default 0")
+    private Boolean isDeleted;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
@@ -57,9 +59,15 @@ public class Game extends TimeBaseEntity {
     @OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
     private List<Item> items = new ArrayList<>();
 
+    @OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
+    private List<Report> reports = new ArrayList<>();
+
+    @OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
+    private List<Like> likes = new ArrayList<>();
+
     @Builder
     public Game(Long id, String title, String description, Long playCount, Long likeCount, Long itemCount,
-                Long reportCount, Boolean deleted, Member member) {
+                Long reportCount, Boolean isDeleted, Member member) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -67,7 +75,7 @@ public class Game extends TimeBaseEntity {
         this.likeCount = likeCount;
         this.itemCount = itemCount;
         this.reportCount = reportCount;
-        this.deleted = deleted;
+        this.isDeleted = isDeleted;
         this.member = member;
     }
 
@@ -79,7 +87,7 @@ public class Game extends TimeBaseEntity {
                 .likeCount(0L)
                 .itemCount(0L)
                 .reportCount(0L)
-                .deleted(false)
+                .isDeleted(false)
                 .member(member)
                 .build();
     }

@@ -19,7 +19,7 @@ public class AuthRequest {
                 .email(email)
                 .password(passwordEncoder.encode(password))
                 .authority(Authority.ROLE_USER)
-                .deleted(false)
+                .isDeleted(false)
                 .build();
     }
 

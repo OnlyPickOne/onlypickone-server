@@ -16,15 +16,17 @@ public class Version extends TimeBaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "version_id")
-    private Long versionId;
+    private Long id;
+
     @Column(length = 20, nullable = false)
     private String minimum;
+
     @Column(length = 20, nullable = false)
     private String latest;
 
     @Builder
-    public Version(Long versionId, String minimum, String latest) {
-        this.versionId = versionId;
+    public Version(Long id, String minimum, String latest) {
+        this.id = id;
         this.minimum = minimum;
         this.latest = latest;
     }

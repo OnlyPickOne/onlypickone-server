@@ -13,7 +13,7 @@ public class ShowGameStatsResponse {
     private Double stats;
 
     public ShowGameStatsResponse(Item item) {
-        this.itemId = item.getItemId();
+        this.itemId = item.getId();
         this.imageUrl = item.getImageUrl();
         this.caption = item.getCaption();
         this.winCount = item.getWinCount();

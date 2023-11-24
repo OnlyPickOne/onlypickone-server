@@ -22,7 +22,7 @@ public class GameResponse {
     private List<String> imageUrls;
 
     public GameResponse(Game game, Boolean isLiked, Boolean isCreated, List<String> imageUrls) {
-        this.gameId = game.getGameId();
+        this.gameId = game.getId();
         this.title = game.getTitle();
         this.description = game.getDescription();
         this.playCount = game.getPlayCount();

@@ -11,7 +11,7 @@ public class ShowGameItemResponse {
     private String caption;
 
     public ShowGameItemResponse(Item item) {
-        this.itemId = item.getItemId();
+        this.itemId = item.getId();
         this.imageUrl = item.getImageUrl();
         this.caption = item.getCaption();
     }
