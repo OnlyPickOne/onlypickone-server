@@ -1,6 +1,7 @@
 package com.hoshogi.onlyonepick.domain.game.controller;
 
 import com.hoshogi.onlyonepick.domain.game.dto.request.CreateGameRequest;
+import com.hoshogi.onlyonepick.domain.game.dto.request.SearchGameCondition;
 import com.hoshogi.onlyonepick.domain.game.dto.request.ShowGameStatsRequest;
 import com.hoshogi.onlyonepick.domain.game.dto.response.GameResponse;
 import com.hoshogi.onlyonepick.domain.game.dto.response.ShowGameItemResponse;
@@ -29,10 +30,9 @@ public class GameController {
         gameService.createGame(request);
         return ApiResponse.onSuccess(CREATED);
     }
-
-    @GetMapping
-    ApiResponse<Page<GameResponse>> showGames(Pageable pageable) {
-        return ApiResponse.onSuccess(OK, gameService.showGames(pageable));
+    @GetMapping()
+    ApiResponse<Page<GameResponse>> searchGames(SearchGameCondition condition, Pageable pageable) {
+        return ApiResponse.onSuccess(OK, gameService.searchGames(condition, pageable));
     }
 
     @DeleteMapping("/{game-id}")

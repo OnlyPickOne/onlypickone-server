@@ -1,6 +1,7 @@
 package com.hoshogi.onlyonepick.domain.game.service;
 
 import com.hoshogi.onlyonepick.domain.game.dto.request.CreateGameRequest;
+import com.hoshogi.onlyonepick.domain.game.dto.request.SearchGameCondition;
 import com.hoshogi.onlyonepick.domain.game.dto.request.ShowGameStatsRequest;
 import com.hoshogi.onlyonepick.domain.game.dto.response.GameResponse;
 import com.hoshogi.onlyonepick.domain.game.dto.response.ShowGameItemResponse;
@@ -59,14 +60,15 @@ public class GameServiceImpl implements GameService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<GameResponse> showGames(Pageable pageable) {
+    public Page<GameResponse> searchGames(SearchGameCondition condition, Pageable pageable) {
         Member member = memberService.findById(SecurityUtil.getCurrentMemberId());
-        return gameRepository.findAll(pageable).map(game ->
+        condition.setMemberId(member.getId());
+        return gameRepository.search(condition, pageable).map(game ->
                 new GameResponse(game, isLikedByMember(member, game), isCreatedByMember(member, game),
-                        itemRepository.findTopByGameOrderByWinCountDesc(game.getId(), THUMBNAIL_ITEM_COUNT)
-                                .stream()
-                                .map(Item::getImageUrl)
-                                .collect(Collectors.toList())));
+                    itemRepository.findTopByGameOrderByWinCountDesc(game.getId(), THUMBNAIL_ITEM_COUNT)
+                        .stream()
+                        .map(Item::getImageUrl)
+                        .collect(Collectors.toList())));
     }
 
     @Override
