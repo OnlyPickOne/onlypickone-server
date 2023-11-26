@@ -10,20 +10,20 @@ import static org.springframework.http.HttpStatus.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/likes")
+@RequestMapping("/api/v1/games/{game-id}/likes")
 public class LikeController {
 
     private final LikeService likeService;
 
     @PostMapping
-    public ApiResponse<?> createLike(CreateLikeRequest request) {
-        likeService.likeGame(request);
+    public ApiResponse<?> createLike(@PathVariable("game-id") Long gameId) {
+        likeService.likeGame(gameId);
         return ApiResponse.onSuccess(OK);
     }
 
-    @DeleteMapping("/{like-id}")
-    public ApiResponse<?> deleteLike(@PathVariable("like-id") Long likeId) {
-        likeService.cancelLike(likeId);
+    @DeleteMapping
+    public ApiResponse<?> deleteLike(@PathVariable("game-id") Long gameId) {
+        likeService.deleteLike(gameId);
         return ApiResponse.onSuccess(OK);
     }
 }
