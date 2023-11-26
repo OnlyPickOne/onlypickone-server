@@ -24,8 +24,8 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     @Transactional
-    public void reportGame(ReportGameRequest request) {
-        Game game = gameService.findById(request.getGameId());
+    public void reportGame(Long gameId) {
+        Game game = gameService.findById(gameId);
         Member member = memberService.findById(SecurityUtil.getCurrentMemberId());
 
         if (reportRepository.existsByMemberAndGame(member, game)) {
