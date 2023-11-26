@@ -105,6 +105,8 @@ public class Game extends TimeBaseEntity {
         likeCount++;
     }
 
+    public void increaseReportCount() {reportCount++;}
+
     public void decreaseLikeCount() {
         likeCount--;
     }

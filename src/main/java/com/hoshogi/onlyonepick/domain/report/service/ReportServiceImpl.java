@@ -1,10 +1,14 @@
 package com.hoshogi.onlyonepick.domain.report.service;
 
+import com.hoshogi.onlyonepick.domain.game.entity.Game;
 import com.hoshogi.onlyonepick.domain.game.service.GameService;
+import com.hoshogi.onlyonepick.domain.member.entity.Member;
 import com.hoshogi.onlyonepick.domain.member.service.MemberService;
 import com.hoshogi.onlyonepick.domain.report.dto.request.ReportGameRequest;
 import com.hoshogi.onlyonepick.domain.report.entity.Report;
 import com.hoshogi.onlyonepick.domain.report.repository.ReportRepository;
+import com.hoshogi.onlyonepick.global.error.ErrorCode;
+import com.hoshogi.onlyonepick.global.error.exception.BadRequestException;
 import com.hoshogi.onlyonepick.global.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,9 +25,14 @@ public class ReportServiceImpl implements ReportService {
     @Override
     @Transactional
     public void reportGame(ReportGameRequest request) {
-        reportRepository.save(Report.create(
-                memberService.findById(SecurityUtil.getCurrentMemberId()),
-                gameService.findById(request.getGameId()))
-        );
+        Game game = gameService.findById(request.getGameId());
+        Member member = memberService.findById(SecurityUtil.getCurrentMemberId());
+
+        if (reportRepository.existsByMemberAndGame(member, game)) {
+            throw new BadRequestException(ErrorCode.DUPLICATE_REPORT);
+        }
+
+        game.increaseReportCount();
+        reportRepository.save(Report.create(member, game));
     }
 }
