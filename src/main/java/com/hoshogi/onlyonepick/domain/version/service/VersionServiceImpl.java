@@ -19,7 +19,7 @@ public class VersionServiceImpl implements VersionService {
 
     private final VersionRepository versionRepository;
     private final MemberService memberService;
-    
+
     @Override
     @Transactional(readOnly = true)
     public VersionResponse findVersion() {

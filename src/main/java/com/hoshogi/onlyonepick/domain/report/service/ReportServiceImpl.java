@@ -4,7 +4,6 @@ import com.hoshogi.onlyonepick.domain.game.entity.Game;
 import com.hoshogi.onlyonepick.domain.game.service.GameService;
 import com.hoshogi.onlyonepick.domain.member.entity.Member;
 import com.hoshogi.onlyonepick.domain.member.service.MemberService;
-import com.hoshogi.onlyonepick.domain.report.dto.request.ReportGameRequest;
 import com.hoshogi.onlyonepick.domain.report.entity.Report;
 import com.hoshogi.onlyonepick.domain.report.repository.ReportRepository;
 import com.hoshogi.onlyonepick.global.error.ErrorCode;

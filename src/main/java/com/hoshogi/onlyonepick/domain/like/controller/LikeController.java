@@ -1,6 +1,5 @@
 package com.hoshogi.onlyonepick.domain.like.controller;
 
-import com.hoshogi.onlyonepick.domain.like.dto.request.CreateLikeRequest;
 import com.hoshogi.onlyonepick.domain.like.service.LikeService;
 import com.hoshogi.onlyonepick.global.common.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
