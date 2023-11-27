@@ -27,7 +27,6 @@ import static org.springframework.util.StringUtils.*;
 public class GameRepositoryImpl implements GameRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
-    private static final Long RESTRICT_REPORT_COUNT = 10L;
 
     @Override
     public Page<Game> search(SearchGameCondition condition, Pageable pageable) {
@@ -38,41 +37,41 @@ public class GameRepositoryImpl implements GameRepositoryCustom {
                                 .select(report.game.id)
                                 .from(report)
                                 .where(report.member.id.eq(condition.getMemberId()))),
-                        idLt(condition.getGameId()),
-                        createdAtLoe(condition.getCreatedAt()),
-                        likeCountLoe(condition.getLikeCount()),
-                        playCountLoe(condition.getPlayCount()),
+                        createdAt(condition.getCreatedAt(), condition.getGameId()),
+                        likeCount(condition.getLikeCount(), condition.getGameId()),
+                        playCount(condition.getPlayCount(), condition.getGameId()),
                         titleEq(condition.getQuery()))
                 .limit(pageable.getPageSize())
                 .orderBy(getOrderSpecifier(pageable.getSort()).stream().toArray(OrderSpecifier[]::new))
                 .fetch();
 
-        JPAQuery<Game> countQuery = queryFactory
-                .selectFrom(game)
+        JPAQuery<Long> countQuery = queryFactory
+                .select(game.count())
+                .from(game)
                 .where(game.id.notIn(
-                        JPAExpressions
-                                .select(report.game.id)
-                                .from(report)
-                                .where(report.member.id.eq(condition.getMemberId()))),
+                                JPAExpressions
+                                        .select(report.game.id)
+                                        .from(report)
+                                        .where(report.member.id.eq(condition.getMemberId()))),
                         titleEq(condition.getQuery()));
 
-        return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchCount);
+        return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
+    }
+
+    private BooleanExpression createdAt(LocalDateTime createdAt, Long gameId) {
+        return createdAt == null ? null : game.createdAt.lt(createdAt).or(game.createdAt.eq(createdAt).and(idLt(gameId)));
+    }
+
+    private BooleanExpression likeCount(Long likeCount, Long gameId) {
+        return likeCount == null ? null : game.likeCount.lt(likeCount).or(game.likeCount.eq(likeCount).and(idLt(gameId)));
+    }
+
+    private BooleanExpression playCount(Long playCount, Long gameId) {
+        return playCount == null ? null : game.playCount.lt(playCount).or(game.playCount.eq(playCount).and(idLt(gameId)));
     }
 
     private BooleanExpression idLt(Long gameId) {
         return gameId == null ? null : game.id.lt(gameId);
-    }
-
-    private BooleanExpression createdAtLoe(LocalDateTime createdAt) {
-        return createdAt == null ? null : game.createdAt.loe(createdAt);
-    }
-
-    private BooleanExpression likeCountLoe(Long likeCount) {
-        return likeCount == null ? null : game.likeCount.loe(likeCount);
-    }
-
-    private BooleanExpression playCountLoe(Long playCount) {
-        return playCount == null ? null : game.playCount.loe(playCount);
     }
 
     private BooleanExpression titleEq(String query) {
