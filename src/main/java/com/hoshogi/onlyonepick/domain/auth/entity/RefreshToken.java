@@ -27,4 +27,12 @@ public class RefreshToken {
         this.memberId = memberId;
         this.ttl = ttl;
     }
+
+    public static RefreshToken create(String token, String memberId, Long ttl) {
+        return RefreshToken.builder()
+                .token(token)
+                .memberId(memberId)
+                .ttl(ttl)
+                .build();
+    }
 }

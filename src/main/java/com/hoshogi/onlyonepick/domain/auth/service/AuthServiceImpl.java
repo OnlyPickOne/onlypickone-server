@@ -44,12 +44,7 @@ public class AuthServiceImpl implements AuthService {
         UsernamePasswordAuthenticationToken authenticationToken = request.toAuthentication();
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         TokenResponse response = tokenProvider.generateToken(authentication, request.getEmail());
-        RefreshToken refreshToken = RefreshToken.builder()
-                .token(response.getRefreshToken())
-                .memberId(authentication.getName())
-                .ttl(TIME_TO_LIVE)
-                .build();
-        refreshTokenRedisRepository.save(refreshToken);
+        refreshTokenRedisRepository.save(RefreshToken.create(response.getRefreshToken(), authentication.getName(), TIME_TO_LIVE));
         return response;
     }
 
@@ -66,13 +61,8 @@ public class AuthServiceImpl implements AuthService {
         }
         TokenResponse response = tokenProvider.generateToken(authentication,
                 memberService.findById(Long.valueOf(authentication.getName())).getEmail());
-        RefreshToken newRefreshToken = RefreshToken.builder()
-                .token(response.getRefreshToken())
-                .memberId(authentication.getName())
-                .ttl(TIME_TO_LIVE)
-                .build();
         refreshTokenRedisRepository.delete(refreshToken);
-        refreshTokenRedisRepository.save(newRefreshToken);
+        refreshTokenRedisRepository.save(RefreshToken.create(response.getRefreshToken(), authentication.getName(), TIME_TO_LIVE));
         return response;
     }
 }
