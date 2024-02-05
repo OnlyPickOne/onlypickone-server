@@ -49,6 +49,9 @@ public enum ErrorCode {
     /** Report */
     DUPLICATE_REPORT(BAD_REQUEST, "REPORT000", "이미 존재하는 신고 입니다."),
 
+    /** Notice */
+    NOTICE_NOT_FOUND(BAD_REQUEST, "NOTICE000", "해당 공지사항이 존재하지 않습니다."),
+
     /** S3 */
     S3_SERVER_ERROR(BAD_REQUEST, "S3000", "Amazon S3가 처리할 수 없는 요청입니다."),
     S3_CONNECTION_ERROR(BAD_REQUEST, "S3001", "Amazon S3에 연결할 수 없습니다.");

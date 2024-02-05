@@ -3,14 +3,16 @@ package com.hoshogi.onlyonepick.domain.notice.service;
 import com.hoshogi.onlyonepick.domain.member.entity.Member;
 import com.hoshogi.onlyonepick.domain.member.service.MemberService;
 import com.hoshogi.onlyonepick.domain.notice.dto.request.CreateNoticeRequest;
-import com.hoshogi.onlyonepick.domain.notice.dto.response.SimpleNoticeResponse;
+import com.hoshogi.onlyonepick.domain.notice.dto.response.NoticeResponse;
+import com.hoshogi.onlyonepick.domain.notice.entity.Notice;
 import com.hoshogi.onlyonepick.domain.notice.repository.NoticeRepository;
 import com.hoshogi.onlyonepick.global.error.ErrorCode;
+import com.hoshogi.onlyonepick.global.error.exception.BadRequestException;
 import com.hoshogi.onlyonepick.global.error.exception.ForbiddenException;
 import com.hoshogi.onlyonepick.global.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +23,8 @@ public class NoticeServiceImpl implements NoticeService {
 
     private final MemberService memberService;
     private final NoticeRepository noticeRepository;
+
+    private static final boolean IS_CONTENT_INCLUDED = true;
 
     @Override
     @Transactional
@@ -34,8 +38,17 @@ public class NoticeServiceImpl implements NoticeService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<SimpleNoticeResponse> showSimpleNoticeInfo(Pageable pageable) {
+    public Slice<NoticeResponse> searchNotices(Pageable pageable) {
         return null;
+    }
+
+    @Override
+    @Transactional
+    public NoticeResponse showNoticeInfo(Long noticeId) {
+        Notice notice = noticeRepository.findById(noticeId)
+                .orElseThrow(() -> new BadRequestException(ErrorCode.NOTICE_NOT_FOUND));
+        notice.increaseViewCount();
+        return NoticeResponse.of(notice, IS_CONTENT_INCLUDED);
     }
 
     @Override

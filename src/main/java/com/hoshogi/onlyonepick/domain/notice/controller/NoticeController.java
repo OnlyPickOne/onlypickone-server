@@ -1,6 +1,7 @@
 package com.hoshogi.onlyonepick.domain.notice.controller;
 
 import com.hoshogi.onlyonepick.domain.notice.dto.request.CreateNoticeRequest;
+import com.hoshogi.onlyonepick.domain.notice.dto.response.NoticeResponse;
 import com.hoshogi.onlyonepick.domain.notice.service.NoticeService;
 import com.hoshogi.onlyonepick.global.common.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
@@ -22,10 +23,10 @@ public class NoticeController {
         return ApiResponse.onSuccess(CREATED);
     }
 
-//    @GetMapping
-//    public ApiResponse<Page<SimpleNoticeResponse>> showSimpleNotice(Pageable pageable) {
-//        return ApiResponse.onSuccess(OK, noticeService.showSimpleNoticeInfo(pageable));
-//    }
+    @GetMapping("/{notice-id}")
+    public ApiResponse<NoticeResponse> showNoticeInfo(@PathVariable("notice-id") Long noticeId) {
+        return ApiResponse.onSuccess(OK, noticeService.showNoticeInfo(noticeId));
+    }
 
 
 }
