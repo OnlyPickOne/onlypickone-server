@@ -97,6 +97,6 @@ CREATE TABLE notice
     `member_id`   BIGINT           NOT NULL,
     `created_at`  TIMESTAMP        NOT NULL,
     `updated_at`  TIMESTAMP        NOT NULL,
-    PRIMARY KEY (notice_id)
-    FOREIGN KEY (member_id) REFERENCES member(member_id),
+    PRIMARY KEY (notice_id),
+    FOREIGN KEY (member_id) REFERENCES member(member_id)
 );

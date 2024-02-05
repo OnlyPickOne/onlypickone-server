@@ -42,9 +42,10 @@ public class Member extends TimeBaseEntity {
     }
 
     public Boolean isAdmin() {
-        if (authority == Authority.ROLE_ADMIN) {
-            return true;
-        }
-        return false;
+        return authority == Authority.ROLE_ADMIN;
+    }
+
+    public Boolean isNotAdmin() {
+        return authority != Authority.ROLE_ADMIN;
     }
 }
