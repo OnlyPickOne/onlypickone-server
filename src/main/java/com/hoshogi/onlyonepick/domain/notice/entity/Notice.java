@@ -1,6 +1,7 @@
 package com.hoshogi.onlyonepick.domain.notice.entity;
 
 import com.hoshogi.onlyonepick.domain.member.entity.Member;
+import com.hoshogi.onlyonepick.global.common.entity.TimeBaseEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,7 +18,7 @@ import static javax.persistence.FetchType.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @SQLDelete(sql = "UPDATE notice SET is_deleted = true WHERE notice_id = ?")
 @Where(clause = "is_deleted = false")
-public class Notice {
+public class Notice extends TimeBaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
