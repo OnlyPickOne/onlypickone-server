@@ -85,3 +85,18 @@ CREATE TABLE report
     FOREIGN KEY (member_id) REFERENCES member(member_id),
     FOREIGN KEY (game_id) REFERENCES game(game_id)
 );
+
+-- Create notice table
+CREATE TABLE notice
+(
+    `notice_id`   BIGINT           NOT NULL    AUTO_INCREMENT,
+    `title`       VARCHAR(100)     NOT NULL,
+    `content`     VARCHAR(2000)    NOT NULL,
+    `is_deleted`  TINYINT(1)       NOT NULL    DEFAULT 0,
+    `view_count`  BIGINT           NOT NULL    DEFAULT 0,
+    `member_id`   BIGINT           NOT NULL,
+    `created_at`  TIMESTAMP        NOT NULL,
+    `updated_at`  TIMESTAMP        NOT NULL,
+    PRIMARY KEY (notice_id)
+    FOREIGN KEY (member_id) REFERENCES member(member_id),
+);
