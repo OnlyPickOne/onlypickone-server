@@ -3,6 +3,7 @@ package com.hoshogi.onlyonepick.domain.notice.service;
 import com.hoshogi.onlyonepick.domain.member.entity.Member;
 import com.hoshogi.onlyonepick.domain.member.service.MemberService;
 import com.hoshogi.onlyonepick.domain.notice.dto.request.CreateNoticeRequest;
+import com.hoshogi.onlyonepick.domain.notice.dto.request.SearchNoticeCondition;
 import com.hoshogi.onlyonepick.domain.notice.dto.response.NoticeResponse;
 import com.hoshogi.onlyonepick.domain.notice.entity.Notice;
 import com.hoshogi.onlyonepick.domain.notice.repository.NoticeRepository;
@@ -24,8 +25,6 @@ public class NoticeServiceImpl implements NoticeService {
     private final MemberService memberService;
     private final NoticeRepository noticeRepository;
 
-    private static final boolean IS_CONTENT_INCLUDED = true;
-
     @Override
     @Transactional
     public void createNotice(CreateNoticeRequest request) {
@@ -38,8 +37,9 @@ public class NoticeServiceImpl implements NoticeService {
 
     @Override
     @Transactional(readOnly = true)
-    public Slice<NoticeResponse> searchNotices(Pageable pageable) {
-        return null;
+    public Slice<NoticeResponse> searchNotices(SearchNoticeCondition condition, Pageable pageable) {
+        return noticeRepository.search(condition, pageable).map(notice ->
+                NoticeResponse.of(notice, false));
     }
 
     @Override
@@ -48,7 +48,7 @@ public class NoticeServiceImpl implements NoticeService {
         Notice notice = noticeRepository.findById(noticeId)
                 .orElseThrow(() -> new BadRequestException(ErrorCode.NOTICE_NOT_FOUND));
         notice.increaseViewCount();
-        return NoticeResponse.of(notice, IS_CONTENT_INCLUDED);
+        return NoticeResponse.of(notice, true);
     }
 
     @Override
