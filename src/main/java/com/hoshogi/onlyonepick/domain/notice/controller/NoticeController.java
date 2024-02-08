@@ -1,6 +1,6 @@
 package com.hoshogi.onlyonepick.domain.notice.controller;
 
-import com.hoshogi.onlyonepick.domain.notice.dto.request.CreateNoticeRequest;
+import com.hoshogi.onlyonepick.domain.notice.dto.request.NoticeRequest;
 import com.hoshogi.onlyonepick.domain.notice.dto.request.SearchNoticeCondition;
 import com.hoshogi.onlyonepick.domain.notice.dto.response.NoticeResponse;
 import com.hoshogi.onlyonepick.domain.notice.service.NoticeService;
@@ -21,7 +21,7 @@ public class NoticeController {
 
     @PostMapping
     @ResponseStatus(CREATED)
-    public ApiResponse<?> createNotice(@RequestBody CreateNoticeRequest request) {
+    public ApiResponse<?> createNotice(@RequestBody NoticeRequest request) {
         noticeService.createNotice(request);
         return ApiResponse.onSuccess(CREATED);
     }
@@ -31,10 +31,21 @@ public class NoticeController {
         return ApiResponse.onSuccess(OK, noticeService.searchNotices(condition, pageable));
     }
 
+    @PatchMapping("/{notice-id}")
+    public ApiResponse<?> modifyNotice(@PathVariable("notice-id") Long noticeId,
+                                       @RequestBody NoticeRequest request) {
+        noticeService.updateNoticeInfo(request, noticeId);
+        return ApiResponse.onSuccess(OK);
+    }
+
     @GetMapping("/{notice-id}")
     public ApiResponse<NoticeResponse> showNoticeInfo(@PathVariable("notice-id") Long noticeId) {
         return ApiResponse.onSuccess(OK, noticeService.showNoticeInfo(noticeId));
     }
 
-
+//    @DeleteMapping("/{notice-id}")
+//    public ApiResponse<?> deleteNotice(@PathVariable("notice-id") Long noticeId) {
+//        noticeService.deleteNotice(noticeId);
+//        return ApiResponse.onSuccess(OK);
+//    }
 }

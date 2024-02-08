@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class CreateNoticeRequest {
+public class NoticeRequest {
 
     private String title;
     private String content;
