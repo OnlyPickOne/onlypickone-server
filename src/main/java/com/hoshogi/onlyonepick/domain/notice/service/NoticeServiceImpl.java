@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static com.hoshogi.onlyonepick.global.error.ErrorCode.*;
 
-
 @Service
 @RequiredArgsConstructor
 public class NoticeServiceImpl implements NoticeService {
@@ -65,7 +64,10 @@ public class NoticeServiceImpl implements NoticeService {
     @Override
     @Transactional
     public void deleteNotice(Long noticeId) {
-
+        if (memberService.findById(SecurityUtil.getCurrentMemberId()).isNotAdmin()) {
+            throw new ForbiddenException(UNAUTHORIZED_ACCESS);
+        }
+        noticeRepository.delete(findById(noticeId));
     }
 
     private Notice findById(Long noticeId) {

@@ -43,9 +43,9 @@ public class NoticeController {
         return ApiResponse.onSuccess(OK, noticeService.showNoticeInfo(noticeId));
     }
 
-//    @DeleteMapping("/{notice-id}")
-//    public ApiResponse<?> deleteNotice(@PathVariable("notice-id") Long noticeId) {
-//        noticeService.deleteNotice(noticeId);
-//        return ApiResponse.onSuccess(OK);
-//    }
+    @DeleteMapping("/{notice-id}")
+    public ApiResponse<?> deleteNotice(@PathVariable("notice-id") Long noticeId) {
+        noticeService.deleteNotice(noticeId);
+        return ApiResponse.onSuccess(OK);
+    }
 }
