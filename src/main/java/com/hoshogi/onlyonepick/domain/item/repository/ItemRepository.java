@@ -13,8 +13,6 @@ import java.util.List;
 public interface ItemRepository extends JpaRepository<Item, Long> {
 
     List<Item> findByGameOrderByWinCountDesc(Game game);
-    @Query(value = "SELECT * FROM item WHERE game_id = :gameId ORDER BY win_count DESC LIMIT :limit", nativeQuery = true)
-    List<Item> findTopByGameOrderByWinCountDesc(@Param("gameId") Long gameId, @Param("limit") Long limit);
     @Query(value = "SELECT * FROM item WHERE game_id = :gameId ORDER BY RAND() LIMIT :limit", nativeQuery = true)
     List<Item> findRandomByGame(@Param("gameId") Long gameId, @Param("limit") Long limit);
 }

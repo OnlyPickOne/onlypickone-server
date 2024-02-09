@@ -65,10 +65,7 @@ public class GameServiceImpl implements GameService {
         condition.setMemberId(member.getId());
         return gameRepository.search(condition, pageable).map(game ->
                 new GameResponse(game, isLikedByMember(member, game), isCreatedByMember(member, game),
-                        itemRepository.findTopByGameOrderByWinCountDesc(game.getId(), THUMBNAIL_ITEM_COUNT)
-                            .stream()
-                            .map(Item::getImageUrl)
-                            .collect(Collectors.toList())));
+                        extractThumbnailImages(game.getItems())));
     }
 
     @Override
@@ -135,6 +132,14 @@ public class GameServiceImpl implements GameService {
 
     private Boolean isLikedByMember(Member member, Game game) {
         return likeRepository.existsByMemberAndGame(member, game);
+    }
+
+    private List<String> extractThumbnailImages(List<Item> items) {
+        return items.stream()
+                .sorted((o1, o2) -> Long.compare(o1.getWinCount(), o2.getWinCount()) * -1)
+                .limit(2)
+                .map(Item::getImageUrl)
+                .collect(Collectors.toList());
     }
 
     private Boolean isCreatedByMember(Member member, Game game) {

@@ -7,14 +7,12 @@ import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.JPAExpressions;
-import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.support.PageableExecutionUtils;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -32,7 +30,9 @@ public class GameRepositoryImpl implements GameRepositoryCustom {
     @Override
     public Slice<Game> search(SearchGameCondition condition, Pageable pageable) {
         List<Game> content = queryFactory
-                .selectFrom(game)
+                .selectFrom(game).distinct()
+                .leftJoin(game.items).fetchJoin()
+                .leftJoin(game.member).fetchJoin()
                 .where(id(condition.getMemberId()),
                        createdAt(condition.getCreatedAt(), condition.getGameId()),
                        likeCount(condition.getLikeCount(), condition.getGameId()),
