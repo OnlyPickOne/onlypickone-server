@@ -12,6 +12,7 @@ public class GameResponse {
     private Long gameId;
     private String title;
     private String description;
+    private Long viewCount;
     private Long playCount;
     private Long likeCount;
     private Long itemCount;
@@ -25,6 +26,7 @@ public class GameResponse {
         this.gameId = game.getId();
         this.title = game.getTitle();
         this.description = game.getDescription();
+        this.viewCount = game.getViewCount();
         this.playCount = game.getPlayCount();
         this.likeCount = game.getLikeCount();
         this.itemCount = game.getItemCount();

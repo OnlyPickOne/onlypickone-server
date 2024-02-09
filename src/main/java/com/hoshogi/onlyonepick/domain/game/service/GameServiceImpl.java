@@ -65,10 +65,10 @@ public class GameServiceImpl implements GameService {
         condition.setMemberId(member.getId());
         return gameRepository.search(condition, pageable).map(game ->
                 new GameResponse(game, isLikedByMember(member, game), isCreatedByMember(member, game),
-                    itemRepository.findTopByGameOrderByWinCountDesc(game.getId(), THUMBNAIL_ITEM_COUNT)
-                        .stream()
-                        .map(Item::getImageUrl)
-                        .collect(Collectors.toList())));
+                        itemRepository.findTopByGameOrderByWinCountDesc(game.getId(), THUMBNAIL_ITEM_COUNT)
+                            .stream()
+                            .map(Item::getImageUrl)
+                            .collect(Collectors.toList())));
     }
 
     @Override
