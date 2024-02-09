@@ -23,8 +23,8 @@ import com.hoshogi.onlyonepick.global.util.StringUtil;
 import com.hoshogi.onlyonepick.infra.s3.S3Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -60,7 +60,7 @@ public class GameServiceImpl implements GameService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<GameResponse> searchGames(SearchGameCondition condition, Pageable pageable) {
+    public Slice<GameResponse> searchGames(SearchGameCondition condition, Pageable pageable) {
         Member member = memberService.findById(SecurityUtil.getCurrentMemberId());
         condition.setMemberId(member.getId());
         return gameRepository.search(condition, pageable).map(game ->

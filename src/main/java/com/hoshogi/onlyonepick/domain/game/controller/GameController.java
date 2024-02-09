@@ -9,8 +9,8 @@ import com.hoshogi.onlyonepick.domain.game.dto.response.ShowGameStatsResponse;
 import com.hoshogi.onlyonepick.domain.game.service.GameService;
 import com.hoshogi.onlyonepick.global.common.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,7 +31,7 @@ public class GameController {
         return ApiResponse.onSuccess(CREATED);
     }
     @GetMapping()
-    ApiResponse<Page<GameResponse>> searchGames(SearchGameCondition condition, Pageable pageable) {
+    ApiResponse<Slice<GameResponse>> searchGames(SearchGameCondition condition, Pageable pageable) {
         return ApiResponse.onSuccess(OK, gameService.searchGames(condition, pageable));
     }
 

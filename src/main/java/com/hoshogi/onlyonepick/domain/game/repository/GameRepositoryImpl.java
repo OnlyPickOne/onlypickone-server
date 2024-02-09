@@ -10,8 +10,9 @@ import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.SliceImpl;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.support.PageableExecutionUtils;
 
@@ -29,7 +30,7 @@ public class GameRepositoryImpl implements GameRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Page<Game> search(SearchGameCondition condition, Pageable pageable) {
+    public Slice<Game> search(SearchGameCondition condition, Pageable pageable) {
         List<Game> content = queryFactory
                 .selectFrom(game)
                 .where(id(condition.getMemberId()),
@@ -37,16 +38,16 @@ public class GameRepositoryImpl implements GameRepositoryCustom {
                        likeCount(condition.getLikeCount(), condition.getGameId()),
                        playCount(condition.getPlayCount(), condition.getGameId()),
                        titleOrDescriptionContains(condition.getQuery()))
-                .limit(pageable.getPageSize())
+                .limit(pageable.getPageSize() + 1)
                 .orderBy(getOrderSpecifier(pageable.getSort()).stream().toArray(OrderSpecifier[]::new))
                 .fetch();
 
-        JPAQuery<Long> countQuery = queryFactory
-                .select(game.count())
-                .from(game)
-                .where(id(condition.getMemberId()),
-                       titleOrDescriptionContains(condition.getQuery()));
-        return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
+        boolean hasNext = false;
+        if (content.size() > pageable.getPageSize()) {
+            content.remove(pageable.getPageSize());
+            hasNext = true;
+        }
+        return new SliceImpl<>(content, pageable, hasNext);
     }
 
     private BooleanExpression id(Long memberId) {
