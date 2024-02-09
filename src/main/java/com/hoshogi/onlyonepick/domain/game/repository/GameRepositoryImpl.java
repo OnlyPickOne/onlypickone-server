@@ -32,15 +32,11 @@ public class GameRepositoryImpl implements GameRepositoryCustom {
     public Page<Game> search(SearchGameCondition condition, Pageable pageable) {
         List<Game> content = queryFactory
                 .selectFrom(game)
-                .where(game.id.notIn(
-                        JPAExpressions
-                                .select(report.game.id)
-                                .from(report)
-                                .where(report.member.id.eq(condition.getMemberId()))),
-                        createdAt(condition.getCreatedAt(), condition.getGameId()),
-                        likeCount(condition.getLikeCount(), condition.getGameId()),
-                        playCount(condition.getPlayCount(), condition.getGameId()),
-                        titleEq(condition.getQuery()))
+                .where(id(condition.getMemberId()),
+                       createdAt(condition.getCreatedAt(), condition.getGameId()),
+                       likeCount(condition.getLikeCount(), condition.getGameId()),
+                       playCount(condition.getPlayCount(), condition.getGameId()),
+                       titleOrDescriptionContains(condition.getQuery()))
                 .limit(pageable.getPageSize())
                 .orderBy(getOrderSpecifier(pageable.getSort()).stream().toArray(OrderSpecifier[]::new))
                 .fetch();
@@ -48,14 +44,16 @@ public class GameRepositoryImpl implements GameRepositoryCustom {
         JPAQuery<Long> countQuery = queryFactory
                 .select(game.count())
                 .from(game)
-                .where(game.id.notIn(
-                                JPAExpressions
-                                        .select(report.game.id)
-                                        .from(report)
-                                        .where(report.member.id.eq(condition.getMemberId()))),
-                        titleEq(condition.getQuery()));
-
+                .where(id(condition.getMemberId()),
+                       titleOrDescriptionContains(condition.getQuery()));
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
+    }
+
+    private BooleanExpression id(Long memberId) {
+        return  memberId == null ? null : game.id.notIn(JPAExpressions
+                                                            .select(report.game.id)
+                                                            .from(report)
+                                                            .where(report.member.id.eq(memberId)));
     }
 
     private BooleanExpression createdAt(LocalDateTime createdAt, Long gameId) {
@@ -74,8 +72,8 @@ public class GameRepositoryImpl implements GameRepositoryCustom {
         return gameId == null ? null : game.id.lt(gameId);
     }
 
-    private BooleanExpression titleEq(String query) {
-        return hasText(query) ? game.title.contains(query) : null;
+    private BooleanExpression titleOrDescriptionContains(String query) {
+        return hasText(query) ? game.title.containsIgnoreCase(query).or(game.description.containsIgnoreCase(query)) : null;
     }
 
     private List<OrderSpecifier> getOrderSpecifier(Sort sort) {
