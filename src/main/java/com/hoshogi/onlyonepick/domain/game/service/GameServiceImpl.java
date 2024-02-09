@@ -126,11 +126,11 @@ public class GameServiceImpl implements GameService {
     }
 
     private void checkImageExtension(List<MultipartFile> multipartFiles) {
-        for (MultipartFile multipartFile : multipartFiles) {
+        multipartFiles.forEach(multipartFile -> {
             if (!ImageExtension.containsImageExtension(StringUtil.getFileExtension(multipartFile.getOriginalFilename()))) {
                 throw new BadRequestException(ErrorCode.UNSUPPORTED_IMAGE_EXTENSION);
             }
-        }
+        });
     }
 
     private Boolean isLikedByMember(Member member, Game game) {
@@ -138,9 +138,6 @@ public class GameServiceImpl implements GameService {
     }
 
     private Boolean isCreatedByMember(Member member, Game game) {
-        if (game.getMember() == member) {
-            return true;
-        }
-        return false;
+        return game.getMember() == member;
     }
 }
