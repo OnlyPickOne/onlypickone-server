@@ -37,6 +37,9 @@ public class Game extends TimeBaseEntity {
     @Column(nullable = false, length = 300)
     private String description;
 
+    @Column(name = "view_count", columnDefinition = "bigint not null default 0")
+    private Long viewCount;
+
     @Column(name = "play_count", columnDefinition = "bigint not null default 0")
     private Long playCount;
 
@@ -66,11 +69,12 @@ public class Game extends TimeBaseEntity {
     private List<Like> likes = new ArrayList<>();
 
     @Builder
-    public Game(Long id, String title, String description, Long playCount, Long likeCount, Long itemCount,
+    public Game(Long id, String title, String description, Long viewCount, Long playCount, Long likeCount, Long itemCount,
                 Long reportCount, Boolean isDeleted, Member member) {
         this.id = id;
         this.title = title;
         this.description = description;
+        this.viewCount = viewCount;
         this.playCount = playCount;
         this.likeCount = likeCount;
         this.itemCount = itemCount;
@@ -83,6 +87,7 @@ public class Game extends TimeBaseEntity {
         return Game.builder()
                 .title(title)
                 .description(description)
+                .viewCount(0L)
                 .playCount(0L)
                 .likeCount(0L)
                 .itemCount(0L)
@@ -95,6 +100,10 @@ public class Game extends TimeBaseEntity {
     public void addItems(List<Item> items) {
         this.items.addAll(items);
         itemCount += items.size();
+    }
+
+    public void increaseViewCount() {
+        viewCount++;
     }
 
     public void increasePlayCount() {

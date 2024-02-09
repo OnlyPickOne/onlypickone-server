@@ -31,6 +31,7 @@ CREATE TABLE game
     `game_id`       BIGINT          NOT NULL    AUTO_INCREMENT,
     `title`         VARCHAR(40)     NOT NULL,
     `description`   VARCHAR(300)    NOT NULL,
+    `view_count`    BIGINT          NOT NULL    DEFAULT 0,
     `play_count`    BIGINT          NOT NULL    DEFAULT 0,
     `like_count`    BIGINT          NOT NULL    DEFAULT 0,
     `item_count`    BIGINT          NOT NULL    DEFAULT 0,
