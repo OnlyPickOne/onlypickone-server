@@ -35,6 +35,11 @@ public class GameController {
         return ApiResponse.onSuccess(OK, gameService.searchGames(condition, pageable));
     }
 
+    @GetMapping("/{game-id}")
+    ApiResponse<GameResponse> showGameInfo(@PathVariable("game-id") Long gameId) {
+        return ApiResponse.onSuccess(OK, gameService.showGameInfo(gameId));
+    }
+
     @DeleteMapping("/{game-id}")
     ApiResponse<?> deleteGame(@PathVariable("game-id") Long gameId) {
         gameService.deleteGame(gameId);

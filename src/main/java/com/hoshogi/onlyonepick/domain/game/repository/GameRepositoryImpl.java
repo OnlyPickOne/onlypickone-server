@@ -31,8 +31,8 @@ public class GameRepositoryImpl implements GameRepositoryCustom {
     public Slice<Game> search(SearchGameCondition condition, Pageable pageable) {
         List<Game> content = queryFactory
                 .selectFrom(game).distinct()
-                .leftJoin(game.items).fetchJoin()
-                .leftJoin(game.member).fetchJoin()
+                .join(game.items).fetchJoin()
+                .join(game.member).fetchJoin()
                 .where(id(condition.getMemberId()),
                        createdAt(condition.getCreatedAt(), condition.getGameId()),
                        likeCount(condition.getLikeCount(), condition.getGameId()),

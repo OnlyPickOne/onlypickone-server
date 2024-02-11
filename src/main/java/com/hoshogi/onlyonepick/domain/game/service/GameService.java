@@ -16,6 +16,7 @@ public interface GameService {
 
     void createGame(CreateGameRequest request);
     Slice<GameResponse> searchGames(SearchGameCondition condition, Pageable pageable);
+    GameResponse showGameInfo(Long gameId);
     void deleteGame(Long gameId);
     List<ShowGameStatsResponse> showGameStats(ShowGameStatsRequest request, Long gameId);
     List<ShowGameItemResponse> showGameItems(Long gameId, Long count);

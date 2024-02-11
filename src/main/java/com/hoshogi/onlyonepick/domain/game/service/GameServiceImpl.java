@@ -61,11 +61,28 @@ public class GameServiceImpl implements GameService {
     @Override
     @Transactional(readOnly = true)
     public Slice<GameResponse> searchGames(SearchGameCondition condition, Pageable pageable) {
-        Member member = memberService.findById(SecurityUtil.getCurrentMemberId());
-        condition.setMemberId(member.getId());
+        if (SecurityUtil.hasAuthentication()) {
+            Member member = memberService.findById(SecurityUtil.getCurrentMemberId());
+            condition.setMemberId(member.getId());
+            return gameRepository.search(condition, pageable).map(game ->
+                    mappingGameResponse(game, isLikedByMember(member, game), isCreatedByMember(member, game),
+                            extractThumbnailImages(game.getItems())));
+        }
         return gameRepository.search(condition, pageable).map(game ->
-                new GameResponse(game, isLikedByMember(member, game), isCreatedByMember(member, game),
-                        extractThumbnailImages(game.getItems())));
+                mappingGameResponse(game, false, false, extractThumbnailImages(game.getItems())));
+    }
+
+    @Override
+    @Transactional
+    public GameResponse showGameInfo(Long gameId) {
+        Game game = findById(gameId);
+        game.increaseViewCount();
+        if (SecurityUtil.hasAuthentication()) {
+            Member member = memberService.findById(SecurityUtil.getCurrentMemberId());
+            return mappingGameResponse(game, isLikedByMember(member, game), isCreatedByMember(member, game),
+                    extractThumbnailImages(game.getItems()));
+        }
+        return mappingGameResponse(game, false, false, extractThumbnailImages(game.getItems()));
     }
 
     @Override
@@ -137,12 +154,16 @@ public class GameServiceImpl implements GameService {
     private List<String> extractThumbnailImages(List<Item> items) {
         return items.stream()
                 .sorted((o1, o2) -> Long.compare(o1.getWinCount(), o2.getWinCount()) * -1)
-                .limit(2)
+                .limit(THUMBNAIL_ITEM_COUNT)
                 .map(Item::getImageUrl)
                 .collect(Collectors.toList());
     }
 
     private Boolean isCreatedByMember(Member member, Game game) {
         return game.getMember() == member;
+    }
+
+    private GameResponse mappingGameResponse(Game game, boolean isLiked, boolean isCreated, List<String> imageUrls) {
+        return new GameResponse(game, isLiked, isCreated, imageUrls);
     }
 }
