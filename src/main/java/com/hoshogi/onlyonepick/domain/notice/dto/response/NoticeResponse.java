@@ -12,7 +12,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.*;
 @Getter
 public class NoticeResponse {
 
-    private Long id;
+    private Long noticeId;
     private String title;
     @JsonInclude(NON_NULL)
     private String content;
@@ -20,8 +20,8 @@ public class NoticeResponse {
     private LocalDateTime createdAt;
 
     @Builder
-    public NoticeResponse(Long id, String title, String content, Long viewCount, LocalDateTime createdAt) {
-        this.id = id;
+    public NoticeResponse(Long noticeId, String title, String content, Long viewCount, LocalDateTime createdAt) {
+        this.noticeId = noticeId;
         this.title = title;
         this.content = content;
         this.viewCount = viewCount;
@@ -35,7 +35,7 @@ public class NoticeResponse {
             content = notice.getContent();
         }
         return NoticeResponse.builder()
-                .id(notice.getId())
+                .noticeId(notice.getId())
                 .title(notice.getTitle())
                 .content(content)
                 .viewCount(notice.getViewCount())
