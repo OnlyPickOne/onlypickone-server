@@ -1,6 +1,7 @@
 package com.hoshogi.onlyonepick.global.config.jwt;
 
 import com.hoshogi.onlyonepick.global.error.ErrorCode;
+import com.hoshogi.onlyonepick.global.error.exception.UnauthorizedException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -34,11 +35,13 @@ public class JwtFilter extends OncePerRequestFilter {
                 Authentication authentication = tokenProvider.getAuthentication(jwt);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
+            filterChain.doFilter(request, response);
+        } catch (UnauthorizedException e) {
+            setResponse(response, ErrorCode.UNAUTHORIZED_ACCESS);
         } catch (Exception e) {
             log.error("Could not set member authentication in security context", e);
             setResponse(response, ErrorCode.INVALID_TOKEN);
         }
-        filterChain.doFilter(request, response);
     }
 
     private String resolveToken(HttpServletRequest request) {

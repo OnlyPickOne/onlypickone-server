@@ -2,6 +2,7 @@ package com.hoshogi.onlyonepick.global.config.jwt;
 
 import com.hoshogi.onlyonepick.domain.auth.dto.response.TokenResponse;
 import com.hoshogi.onlyonepick.global.error.ErrorCode;
+import com.hoshogi.onlyonepick.global.error.exception.BadRequestException;
 import com.hoshogi.onlyonepick.global.error.exception.UnauthorizedException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -90,12 +91,13 @@ public class TokenProvider {
             log.info("잘못된 JWT 서명입니다.", e);
         } catch (ExpiredJwtException e) {
             log.info("만료된 JWT 토큰입니다.", e);
+            throw new UnauthorizedException(ErrorCode.UNAUTHORIZED_ACCESS);
         } catch (UnsupportedJwtException e) {
             log.info("지원되지 않는 JWT 토큰입니다.", e);
         } catch (IllegalArgumentException e) {
             log.info("JWT 토큰이 잘못되었습니다.", e);
         }
-        return false;
+        throw new BadRequestException(ErrorCode.INVALID_TOKEN);
     }
 
     private Claims parseClaims(String accessToken) {
