@@ -1,4 +1,4 @@
-package com.hoshogi.onlyonepick.domain.model;
+package com.hoshogi.onlyonepick.global.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
