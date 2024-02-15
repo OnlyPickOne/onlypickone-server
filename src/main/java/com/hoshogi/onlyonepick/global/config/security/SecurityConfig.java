@@ -49,11 +49,11 @@ public class SecurityConfig {
 
                 .and()
                 .authorizeRequests()
-                .antMatchers(POST, "/api/v1/versions").authenticated()
-                .antMatchers(POST, "/api/v1/notices").authenticated()
-                .antMatchers(PATCH, "/api/v1/notices/**").authenticated()
-                .antMatchers(DELETE, "/api/v1/notices/**").authenticated()
-                .antMatchers("/api/v1/games/**").authenticated()
+                .antMatchers(POST, "/api/v1/versions").hasRole("ADMIN")
+                .antMatchers(POST, "/api/v1/notices").hasRole("ADMIN")
+                .antMatchers(PATCH, "/api/v1/notices/**").hasRole("ADMIN")
+                .antMatchers(DELETE, "/api/v1/notices/**").hasRole("ADMIN")
+                .antMatchers(POST, "/api/v1/games").authenticated()
                 .anyRequest().permitAll()
 
                 .and()
