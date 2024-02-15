@@ -20,4 +20,18 @@ public class SecurityUtil {
         }
         return Long.parseLong(authentication.getName());
     }
+
+    public static Boolean hasAuthentication() {
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || authentication.getName() == null) {
+            log.error("Security Context에 인증 정보가 없습니다.");
+            throw new UnauthorizedException(ErrorCode.INVALID_AUTH_TOKEN);
+        }
+
+        if (authentication.getName().equals("anonymousUser")) {
+            return false;
+        }
+        return true;
+    }
 }

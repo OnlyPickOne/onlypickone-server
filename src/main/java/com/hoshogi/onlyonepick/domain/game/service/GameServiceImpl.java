@@ -14,7 +14,7 @@ import com.hoshogi.onlyonepick.domain.item.service.ItemService;
 import com.hoshogi.onlyonepick.domain.like.repository.LikeRepository;
 import com.hoshogi.onlyonepick.domain.member.entity.Member;
 import com.hoshogi.onlyonepick.domain.member.service.MemberService;
-import com.hoshogi.onlyonepick.domain.model.ImageExtension;
+import com.hoshogi.onlyonepick.global.model.ImageExtension;
 import com.hoshogi.onlyonepick.global.error.ErrorCode;
 import com.hoshogi.onlyonepick.global.error.exception.BadRequestException;
 import com.hoshogi.onlyonepick.global.error.exception.ForbiddenException;
@@ -111,7 +111,7 @@ public class GameServiceImpl implements GameService {
     public void deleteGame(Long gameId) {
         Member member = memberService.findById(SecurityUtil.getCurrentMemberId());
         Game game = findById(gameId);
-        if (!member.isAdmin() && game.getMember() != member) {
+        if (member.isNotAdmin() && game.getMember() != member) {
             throw new ForbiddenException(ErrorCode.FORBIDDEN_USER);
         }
         gameRepository.delete(game);

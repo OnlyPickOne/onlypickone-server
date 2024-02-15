@@ -31,9 +31,6 @@ public class VersionServiceImpl implements VersionService {
     @Override
     @Transactional
     public void saveVersion(VersionRequest request) {
-        if (!memberService.findById(SecurityUtil.getCurrentMemberId()).isAdmin()) {
-            throw new ForbiddenException(ErrorCode.FORBIDDEN_USER);
-        }
         versionRepository.save(request.toEntity());
     }
 }

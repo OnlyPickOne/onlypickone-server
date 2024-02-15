@@ -24,7 +24,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public void deleteMember(Long memberId) {
         Member member = findById(SecurityUtil.getCurrentMemberId());
-        if (!member.isAdmin() && member.getId() != memberId) {
+        if (member.isNotAdmin() && member.getId() != memberId) {
             throw new ForbiddenException(ErrorCode.FORBIDDEN_USER);
         }
         memberRepository.delete(findById(memberId));

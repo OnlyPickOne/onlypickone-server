@@ -28,11 +28,7 @@ public class NoticeServiceImpl implements NoticeService {
     @Override
     @Transactional
     public void createNotice(NoticeRequest request) {
-        Member member = memberService.findById(SecurityUtil.getCurrentMemberId());
-        if (member.isNotAdmin()) {
-            throw new ForbiddenException(FORBIDDEN_USER);
-        }
-        noticeRepository.save(request.toEntity(member));
+        noticeRepository.save(request.toEntity(memberService.findById(SecurityUtil.getCurrentMemberId())));
     }
 
     @Override
@@ -53,9 +49,6 @@ public class NoticeServiceImpl implements NoticeService {
     @Override
     @Transactional
     public void updateNoticeInfo(NoticeRequest request, Long noticeId) {
-        if (memberService.findById(SecurityUtil.getCurrentMemberId()).isNotAdmin()) {
-            throw new ForbiddenException(UNAUTHORIZED_ACCESS);
-        }
         Notice notice = findById(noticeId);
         notice.changeTitle(request.getTitle());
         notice.changeContent(request.getContent());
@@ -64,9 +57,6 @@ public class NoticeServiceImpl implements NoticeService {
     @Override
     @Transactional
     public void deleteNotice(Long noticeId) {
-        if (memberService.findById(SecurityUtil.getCurrentMemberId()).isNotAdmin()) {
-            throw new ForbiddenException(UNAUTHORIZED_ACCESS);
-        }
         noticeRepository.delete(findById(noticeId));
     }
 
