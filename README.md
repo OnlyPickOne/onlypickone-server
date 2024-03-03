@@ -30,6 +30,20 @@
 | :------------------------------------------------------------------------------------- |
 | :: [API Document Link](https://legendary-sink-372.notion.site/API-Document-870598a962ee4d7c87c73fbaed737c92?pvs=4) |
 
+## 👨🏻‍💻 팀 구성
+
+### Han Taehee
+
+- iOS Development
+- https://github.com/110w110
+- 프로젝트 기획 및 설계, 전체 UI 디자인 및 구현, iOS 앱 개발 전체 과정 등
+
+### Lee Hoseok
+
+- Backend Development, Database, Infra
+- https://github.com/hoshogi
+- Backend 개발, Database 설계, Infra 구축 및 배포, REST API 설계 등
+
 ## 📚 기술 스택
 
 ### iOS
@@ -128,19 +142,7 @@
 </div>
 앱스토어에서 이상형 월드컵 등을 검색하거나 앱스토어 앱 추천을 통해 유입되는 케이스가 꾸준하게 발생하는 것을 확인할 수 있습니다.
 
-## 👨🏻‍💻 팀 구성
-
-### Han Taehee
-
-- iOS Development
-- https://github.com/110w110
-- 프로젝트 기획 및 설계, 전체 UI 디자인 및 구현, iOS 앱 개발 전체 과정 등
-
-### Lee Hoseok
-
-- Backend Development, Database, Infra
-- https://github.com/hoshogi
-- Backend 개발, Database 설계, Infra 구축 및 배포, REST API 설계 등
+<br>
 
 ## 📝 서비스 이용 규칙 또는 약관
 
