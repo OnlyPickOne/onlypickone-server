@@ -9,7 +9,7 @@
 - iOS, Backend 개발 팀으로 진행하는 프로젝트입니다.
 - 해당 앱은 유저들이 자유롭게 업로드한 사진과 캡션을 무작위로 배정하여 반복적으로 1:1 매칭을 진행하는 게임입니다.
 - 최종적으로 단 한 개의 선택지가 남으면 게임이 종료되며, 다른 유저들이 가장 많이 선택한 선택지를 비교하며 공유하고 즐길 수 있습니다.
-- 현재 앱스토어에 성공적으로 출시되어 서비스되고 있으며, 유저 피드백을 통해 업데이트를 진행 중입니다.
+- 현재 앱스토어에 성공적으로 출시되어 서비스되고 있으며, 유저 피드백을 통해 업데이트 진행 중입니다.
 
 ## 📲 링크
 
@@ -77,12 +77,12 @@
 <img width="1024" alt="image" src="https://github.com/OnlyPickOne/onlypickone-server/assets/71253970/23578068-2985-4f09-8d33-1de734a967e0">
 </div> -->
 
-![only_one_pick_schema](https://github.com/OnlyPickOne/onlypickone-server/assets/71253970/23578068-2985-4f09-8d33-1de734a967e0)
+![only_one_pick_schema](https://github.com/OnlyPickOne/onlypickone-server/assets/71253970/56c3f1f2-01b3-4fe8-a2e2-20bd5a00a3c6)
 
 ### 📡 Software Architecture
 
 <div align="center">
-<img width="600" alt="image" src="https://github.com/OnlyPickOne/onlypickone-server/assets/71253970/0b2103ea-a1fd-48f9-9f28-0fd3b48c95d9">
+<img width="600" alt="image" src="https://github.com/OnlyPickOne/onlypickone-server/assets/71253970/2957e5b0-ee4b-4861-a38f-1e910b80361b">
 </div>
 
 <!-- ![Software Architecture](https://github.com/OnlyPickOne/onlypickone-server/assets/71253970/0b2103ea-a1fd-48f9-9f28-0fd3b48c95d9) -->
@@ -91,13 +91,13 @@
 
 ## Server
 
-### v_1.0.0 
+### v1.0.0 
 2023.12.04
 
 - OnlyPickOne 서비스가 시작되었습니다.
 
-### v_1.0.1
-2024.02.13
+### v1.0.1
+2024.02.15
 
 - 공지사항 기능을 추가했습니다.
 - 게임 별 조회수를 추가했습니다.
