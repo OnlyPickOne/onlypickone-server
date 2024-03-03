@@ -50,13 +50,13 @@
 
 <img src="https://img.shields.io/badge/ios-000000?style=for-the-badge&logo=ios&logoColor=white"> <img src="https://img.shields.io/badge/swift-F05138?style=for-the-badge&logo=swift&logoColor=white"> <img src="https://img.shields.io/badge/swiftUI-F05138?style=for-the-badge&logo=swiftui&logoColor=white"> <img src="https://img.shields.io/badge/mvvm-1578D3?style=for-the-badge&logo=mvvm&logoColor=white"> <img src="https://img.shields.io/badge/kingfisher-2490D7?style=for-the-badge&logo=kingfisher&logoColor=white"> <img src="https://img.shields.io/badge/moya-FF5A5F?style=for-the-badge&logo=moya&logoColor=white"> <img src="https://img.shields.io/badge/testflight-0D96F6?style=for-the-badge&logo=testflight&logoColor=white"> <img src="https://img.shields.io/badge/appstoreconnect-0D96F6?style=for-the-badge&logo=appstore&logoColor=white"> 
 
-### Backend
+### Server
 <img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white"> <img src="https://img.shields.io/badge/spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white"> <img src="https://img.shields.io/badge/spring%20boot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white"> <img src="https://img.shields.io/badge/spring%20security-6DB33F?style=for-the-badge&logo=springsecurity&logoColor=white"> <img src="https://img.shields.io/badge/jpa-006600?style=for-the-badge&logo=jpa&logoColor=white"> <img src="https://img.shields.io/badge/QueryDSL-0769AD?style=for-the-badge&logo=querydsl&logoColor=white"> <img src="https://img.shields.io/badge/gradle-02303A?style=for-the-badge&logo=gradle&logoColor=white"> 
 
 ### Database
 <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"> <img src="https://img.shields.io/badge/redis-DC382D?style=for-the-badge&logo=redis&logoColor=white"> 
 
-## Infra
+### Infra
 <img src="https://img.shields.io/badge/ec2-FF9900?style=for-the-badge&logo=amazonec2&logoColor=white"> <img src="https://img.shields.io/badge/rds-527FFF?style=for-the-badge&logo=amazonrds&logoColor=white"> <img src="https://img.shields.io/badge/s3-569A31?style=for-the-badge&logo=amazons3&logoColor=white"> <img src="https://img.shields.io/badge/ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white"> 
 
 ### Tool
