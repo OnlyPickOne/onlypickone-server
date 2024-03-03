@@ -11,11 +11,6 @@
 - 최종적으로 단 한 개의 선택지가 남으면 게임이 종료되며, 다른 유저들이 가장 많이 선택한 선택지를 비교하며 공유하고 즐길 수 있습니다.
 - 현재 앱스토어에 성공적으로 출시되어 서비스되고 있으며, 유저 피드백을 통해 업데이트를 진행 중입니다.
 
-## 🗓️ 수행 기간
-
-- 2023.9.5 - 프로젝트 설계 및 구현 시작
-- 2023.12.4 - v.1.0.0 앱스토어 출시 완료
-
 ## 📲 링크
 
 <!-- 📌 **App Store Link** https://apps.apple.com/kr/app/onlypickone/id6469682692
@@ -30,19 +25,10 @@
 | :------------------------------------------------------------------------------------- |
 | :: [API Document Link](https://legendary-sink-372.notion.site/API-Document-870598a962ee4d7c87c73fbaed737c92?pvs=4) |
 
-## 👨🏻‍💻 팀 구성
+## 🗓️ 수행 기간
 
-### Han Taehee
-
-- iOS Development
-- https://github.com/110w110
-- 프로젝트 기획 및 설계, 전체 UI 디자인 및 구현, iOS 앱 개발 전체 과정 등
-
-### Lee Hoseok
-
-- Backend Development, Database, Infra
-- https://github.com/hoshogi
-- Backend 개발, Database 설계, Infra 구축 및 배포, REST API 설계 등
+- 2023.9.5 - 프로젝트 설계 및 구현 시작
+- 2023.12.4 - v.1.0.0 앱스토어 출시 완료
 
 ## 📚 기술 스택
 
@@ -65,7 +51,21 @@
 ### Collaboration
 <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white"> <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white"> <img src="https://img.shields.io/badge/notion-000000?style=for-the-badge&logo=notion&logoColor=white"> <img src="https://img.shields.io/badge/discord-5865F2?style=for-the-badge&logo=discord&logoColor=white"> <img src="https://img.shields.io/badge/figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white"> 
 <!-- <img src="https://img.shields.io/badge/zeplin-FFE005?style=for-the-badge&logo=zeplin&logoColor=white"> -->
+<br>
 
+## 👨🏻‍💻 팀 구성
+
+### Han Taehee
+
+- iOS Development
+- https://github.com/110w110
+- 프로젝트 기획 및 설계, 전체 UI 디자인 및 구현, iOS 앱 개발 전체 과정 등
+
+### Lee Hoseok
+
+- Backend Development, Database, Infra
+- https://github.com/hoshogi
+- Backend 개발, Database 설계, Infra 구축 및 배포, REST API 설계 등  
 <br>
 
 ## ⚙️ System Architecture
