@@ -11,11 +11,11 @@ import com.hoshogi.onlyonepick.domain.game.repository.GameRepository;
 import com.hoshogi.onlyonepick.domain.item.entity.Item;
 import com.hoshogi.onlyonepick.domain.item.repository.ItemRepository;
 import com.hoshogi.onlyonepick.domain.item.service.ItemService;
+import com.hoshogi.onlyonepick.domain.like.entity.Like;
 import com.hoshogi.onlyonepick.domain.like.repository.LikeRepository;
 import com.hoshogi.onlyonepick.domain.member.entity.Member;
 import com.hoshogi.onlyonepick.domain.member.service.MemberService;
 import com.hoshogi.onlyonepick.global.model.ImageExtension;
-import com.hoshogi.onlyonepick.global.error.ErrorCode;
 import com.hoshogi.onlyonepick.global.error.exception.BadRequestException;
 import com.hoshogi.onlyonepick.global.error.exception.ForbiddenException;
 import com.hoshogi.onlyonepick.global.util.SecurityUtil;
@@ -32,6 +32,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.hoshogi.onlyonepick.global.error.ErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
@@ -112,7 +114,7 @@ public class GameServiceImpl implements GameService {
         Member member = memberService.findById(SecurityUtil.getCurrentMemberId());
         Game game = findById(gameId);
         if (member.isNotAdmin() && game.getMember() != member) {
-            throw new ForbiddenException(ErrorCode.FORBIDDEN_USER);
+            throw new ForbiddenException(FORBIDDEN_USER);
         }
         gameRepository.delete(game);
     }
@@ -121,7 +123,7 @@ public class GameServiceImpl implements GameService {
     @Transactional(readOnly = true)
     public Game findById(Long gameId) {
          return gameRepository.findById(gameId)
-                .orElseThrow(() -> new BadRequestException(ErrorCode.GAME_NOT_FOUND));
+                .orElseThrow(() -> new BadRequestException(GAME_NOT_FOUND));
     }
 
     private List<Item> createItems(List<MultipartFile> multipartFiles, Game game) {
@@ -142,13 +144,15 @@ public class GameServiceImpl implements GameService {
     private void checkImageExtension(List<MultipartFile> multipartFiles) {
         multipartFiles.forEach(multipartFile -> {
             if (!ImageExtension.containsImageExtension(StringUtil.getFileExtension(multipartFile.getOriginalFilename()))) {
-                throw new BadRequestException(ErrorCode.UNSUPPORTED_IMAGE_EXTENSION);
+                throw new BadRequestException(UNSUPPORTED_IMAGE_EXTENSION);
             }
         });
     }
 
     private Boolean isLikedByMember(Member member, Game game) {
-        return likeRepository.existsByMemberAndGame(member, game);
+        return likeRepository.findByMemberAndGame(member, game)
+                .map(Like::isNotDeleted)
+                .orElse(false);
     }
 
     private List<String> extractThumbnailImages(List<Item> items) {
