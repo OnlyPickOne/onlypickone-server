@@ -1,5 +1,6 @@
 package com.hoshogi.onlyonepick.domain.like.controller;
 
+import com.hoshogi.onlyonepick.domain.like.dto.response.LikeResponse;
 import com.hoshogi.onlyonepick.domain.like.service.LikeService;
 import com.hoshogi.onlyonepick.global.common.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
@@ -15,14 +16,12 @@ public class LikeController {
     private final LikeService likeService;
 
     @PostMapping
-    public ApiResponse<?> createLike(@PathVariable("game-id") Long gameId) {
-        likeService.likeGame(gameId);
-        return ApiResponse.onSuccess(OK);
+    public ApiResponse<LikeResponse> createLike(@PathVariable("game-id") Long gameId) {
+        return ApiResponse.onSuccess(OK, likeService.likeGame(gameId));
     }
 
     @DeleteMapping
-    public ApiResponse<?> deleteLike(@PathVariable("game-id") Long gameId) {
-        likeService.deleteLike(gameId);
-        return ApiResponse.onSuccess(OK);
+    public ApiResponse<LikeResponse> deleteLike(@PathVariable("game-id") Long gameId) {
+        return ApiResponse.onSuccess(OK, likeService.deleteLike(gameId));
     }
 }

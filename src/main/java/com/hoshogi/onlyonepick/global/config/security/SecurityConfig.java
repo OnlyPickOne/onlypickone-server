@@ -54,6 +54,8 @@ public class SecurityConfig {
                 .antMatchers(PATCH, "/api/v1/notices/**").hasRole("ADMIN")
                 .antMatchers(DELETE, "/api/v1/notices/**").hasRole("ADMIN")
                 .antMatchers(POST, "/api/v1/games").authenticated()
+                .antMatchers("/api/v1/games/{game-id}/likes").authenticated()
+                .antMatchers("/api/v1/games/{game-id}/reports").authenticated()
                 .anyRequest().permitAll()
 
                 .and()
