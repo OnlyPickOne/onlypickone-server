@@ -28,7 +28,7 @@ public class LikeServiceImpl implements LikeService {
     public LikeResponse likeGame(Long gameId) {
         Member member = memberService.findById(SecurityUtil.getCurrentMemberId());
         Game game = gameService.findById(gameId);
-        likeRepository.findByMemberAndGame(member, game).ifPresentOrElse(
+        likeRepository.findTopByMemberAndGameOrderByCreatedAtDesc(member, game).ifPresentOrElse(
                 like -> releaseLikeIsDeleted(like),
                 () -> likeRepository.save(Like.create(member, game))
         );
@@ -40,7 +40,7 @@ public class LikeServiceImpl implements LikeService {
     @Transactional
     public LikeResponse deleteLike(Long gameId) {
         Game game = gameService.findById(gameId);
-        Like like = likeRepository.findByMemberAndGame(memberService.findById(SecurityUtil.getCurrentMemberId()), game)
+        Like like = likeRepository.findTopByMemberAndGameOrderByCreatedAtDesc(memberService.findById(SecurityUtil.getCurrentMemberId()), game)
                 .orElseThrow(() -> new BadRequestException(LIKE_NOT_FOUND));
         game.decreaseLikeCount();
         likeRepository.delete(like);
