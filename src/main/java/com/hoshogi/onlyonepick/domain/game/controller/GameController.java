@@ -4,8 +4,8 @@ import com.hoshogi.onlyonepick.domain.game.dto.request.CreateGameRequest;
 import com.hoshogi.onlyonepick.domain.game.dto.request.SearchGameCondition;
 import com.hoshogi.onlyonepick.domain.game.dto.request.ShowGameStatsRequest;
 import com.hoshogi.onlyonepick.domain.game.dto.response.GameResponse;
-import com.hoshogi.onlyonepick.domain.game.dto.response.ShowGameItemResponse;
-import com.hoshogi.onlyonepick.domain.game.dto.response.ShowGameStatsResponse;
+import com.hoshogi.onlyonepick.domain.game.dto.response.GameItemResponse;
+import com.hoshogi.onlyonepick.domain.game.dto.response.GameStatsResponse;
 import com.hoshogi.onlyonepick.domain.game.service.GameService;
 import com.hoshogi.onlyonepick.global.common.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
@@ -47,14 +47,14 @@ public class GameController {
     }
 
     @PostMapping({"/{game-id}/items"})
-    ApiResponse<List<ShowGameStatsResponse>> showGameStats(@PathVariable("game-id") Long gameId,
-                                                           @RequestBody ShowGameStatsRequest request) {
+    ApiResponse<GameStatsResponse> showGameStats(@PathVariable("game-id") Long gameId,
+                                                       @RequestBody ShowGameStatsRequest request) {
         return ApiResponse.onSuccess(OK, gameService.showGameStats(request, gameId));
     }
 
     @GetMapping("/{game-id}/items")
-    ApiResponse<List<ShowGameItemResponse>> showGameItems(@PathVariable("game-id") Long gameId,
-                                                          @RequestParam Long count) {
+    ApiResponse<List<GameItemResponse>> showGameItems(@PathVariable("game-id") Long gameId,
+                                                      @RequestParam Long count) {
         return ApiResponse.onSuccess(OK, gameService.showGameItems(gameId, count));
     }
 }

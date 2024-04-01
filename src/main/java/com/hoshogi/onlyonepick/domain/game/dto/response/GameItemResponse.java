@@ -4,13 +4,13 @@ import com.hoshogi.onlyonepick.domain.item.entity.Item;
 import lombok.Getter;
 
 @Getter
-public class ShowGameItemResponse {
+public class GameItemResponse {
 
     private Long itemId;
     private String imageUrl;
     private String caption;
 
-    public ShowGameItemResponse(Item item) {
+    public GameItemResponse(Item item) {
         this.itemId = item.getId();
         this.imageUrl = item.getImageUrl();
         this.caption = item.getCaption();

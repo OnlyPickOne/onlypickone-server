@@ -4,8 +4,8 @@ import com.hoshogi.onlyonepick.domain.game.dto.request.CreateGameRequest;
 import com.hoshogi.onlyonepick.domain.game.dto.request.SearchGameCondition;
 import com.hoshogi.onlyonepick.domain.game.dto.request.ShowGameStatsRequest;
 import com.hoshogi.onlyonepick.domain.game.dto.response.GameResponse;
-import com.hoshogi.onlyonepick.domain.game.dto.response.ShowGameItemResponse;
-import com.hoshogi.onlyonepick.domain.game.dto.response.ShowGameStatsResponse;
+import com.hoshogi.onlyonepick.domain.game.dto.response.GameItemResponse;
+import com.hoshogi.onlyonepick.domain.game.dto.response.GameStatsResponse;
 import com.hoshogi.onlyonepick.domain.game.entity.Game;
 import com.hoshogi.onlyonepick.domain.game.repository.GameRepository;
 import com.hoshogi.onlyonepick.domain.item.entity.Item;
@@ -89,22 +89,19 @@ public class GameServiceImpl implements GameService {
 
     @Override
     @Transactional
-    public List<ShowGameStatsResponse> showGameStats(ShowGameStatsRequest request, Long gameId) {
+    public GameStatsResponse showGameStats(ShowGameStatsRequest request, Long gameId) {
         Game game = findById(gameId);
         game.increasePlayCount();
         itemService.findById(request.getWinItemId()).increaseWinCount();
-        return itemRepository.findByGameOrderByWinCountDesc(game)
-                .stream()
-                .map(ShowGameStatsResponse::new)
-                .collect(Collectors.toList());
+        return new GameStatsResponse(game.getPlayCount(), itemRepository.findByGameOrderByWinCountDesc(game));
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<ShowGameItemResponse> showGameItems(Long gameId, Long count) {
+    public List<GameItemResponse> showGameItems(Long gameId, Long count) {
         return itemRepository.findRandomByGame(gameId, count)
                 .stream()
-                .map(ShowGameItemResponse::new)
+                .map(GameItemResponse::new)
                 .collect(Collectors.toList());
     }
 
@@ -150,7 +147,7 @@ public class GameServiceImpl implements GameService {
     }
 
     private Boolean isLikedByMember(Member member, Game game) {
-        return likeRepository.findByMemberAndGame(member, game)
+        return likeRepository.findTopByMemberAndGameOrderByCreatedAtDesc(member, game)
                 .map(Like::isNotDeleted)
                 .orElse(false);
     }
