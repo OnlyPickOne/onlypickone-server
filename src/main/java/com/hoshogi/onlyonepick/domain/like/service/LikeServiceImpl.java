@@ -33,7 +33,7 @@ public class LikeServiceImpl implements LikeService {
                 () -> likeRepository.save(Like.create(member, game))
         );
         game.increaseLikeCount();
-        return LikeResponse.of(game);
+        return LikeResponse.of(game, true);
     }
 
     @Override
@@ -42,9 +42,12 @@ public class LikeServiceImpl implements LikeService {
         Game game = gameService.findById(gameId);
         Like like = likeRepository.findTopByMemberAndGameOrderByCreatedAtDesc(memberService.findById(SecurityUtil.getCurrentMemberId()), game)
                 .orElseThrow(() -> new BadRequestException(LIKE_NOT_FOUND));
+        if (like.isDeleted()) {
+            throw new BadRequestException(DUPLICATE_CANCEL_LIKE);
+        }
         game.decreaseLikeCount();
         likeRepository.delete(like);
-        return LikeResponse.of(game);
+        return LikeResponse.of(game, false);
     }
 
     private void releaseLikeIsDeleted(Like like) {

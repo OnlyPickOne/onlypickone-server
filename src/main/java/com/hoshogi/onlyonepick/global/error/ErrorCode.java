@@ -45,6 +45,7 @@ public enum ErrorCode {
     /** Like */
     DUPLICATE_LIKE(BAD_REQUEST, "LIKE000", "이미 존재하는 좋아요 입니다."),
     LIKE_NOT_FOUND(BAD_REQUEST, "LIKE001", "해당 좋아요가 존재하지 않습니다."),
+    DUPLICATE_CANCEL_LIKE(BAD_REQUEST, "LIKE002", "이미 취소된 좋아요 입니다."),
 
     /** Report */
     DUPLICATE_REPORT(BAD_REQUEST, "REPORT000", "이미 존재하는 신고 입니다."),

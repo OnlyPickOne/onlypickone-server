@@ -19,7 +19,6 @@ import static javax.persistence.FetchType.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "likes")
 @SQLDelete(sql = "UPDATE likes SET is_deleted = true WHERE like_id = ?")
-//@Where(clause = "is_deleted = false")
 public class Like extends TimeBaseEntity {
 
     @Id
@@ -54,6 +53,10 @@ public class Like extends TimeBaseEntity {
                 .build();
     }
 
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+    
     public boolean isNotDeleted() {
         return !isDeleted;
     }

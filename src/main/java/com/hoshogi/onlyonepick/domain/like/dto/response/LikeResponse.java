@@ -10,8 +10,9 @@ public class LikeResponse {
 
     private Long gameId;
     private Long likeCount;
+    private Boolean isLiked;
 
-    public static LikeResponse of(Game game) {
-        return new LikeResponse(game.getId(), game.getLikeCount());
+    public static LikeResponse of(Game game, Boolean isLiked) {
+        return new LikeResponse(game.getId(), game.getLikeCount(), isLiked);
     }
 }
