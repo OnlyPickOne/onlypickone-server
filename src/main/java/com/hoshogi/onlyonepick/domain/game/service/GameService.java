@@ -19,6 +19,6 @@ public interface GameService {
     GameResponse showGameInfo(Long gameId);
     void deleteGame(Long gameId);
     GameStatsResponse showGameStats(ShowGameStatsRequest request, Long gameId);
-    List<GameItemResponse> showGameItems(Long gameId, Long count);
+    List<GameItemResponse> showGameItems(Long gameId, int count);
     Game findById(Long gameId);
 }

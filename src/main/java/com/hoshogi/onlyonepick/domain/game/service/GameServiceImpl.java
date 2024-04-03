@@ -30,6 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -98,11 +99,8 @@ public class GameServiceImpl implements GameService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<GameItemResponse> showGameItems(Long gameId, Long count) {
-        return itemRepository.findRandomByGame(gameId, count)
-                .stream()
-                .map(GameItemResponse::new)
-                .collect(Collectors.toList());
+    public List<GameItemResponse> showGameItems(Long gameId, int count) {
+        return selectRandomItems(itemRepository.findByGameOrderByWinCountDesc(findById(gameId)), count);
     }
 
     @Override
@@ -166,5 +164,30 @@ public class GameServiceImpl implements GameService {
 
     private GameResponse mappingGameResponse(Game game, boolean isLiked, boolean isCreated, List<String> imageUrls) {
         return new GameResponse(game, isLiked, isCreated, imageUrls);
+    }
+
+    private List<GameItemResponse> selectRandomItems(List<Item> items, int count) {
+        List<GameItemResponse> responses = calculateRank(items);
+        Collections.shuffle(responses);
+        return new ArrayList<>(responses.subList(0, count));
+    }
+
+    private List<GameItemResponse> calculateRank(List<Item> items) {
+        List<GameItemResponse> responses = new ArrayList<>();
+        Long rank = 0L;
+        Long count = 0L;
+        Long prevWinCount = Long.MAX_VALUE;
+
+        for (Item item : items) {
+            count++;
+            if (item.getWinCount() == prevWinCount) {
+                responses.add(new GameItemResponse(item, rank));
+                continue;
+            }
+            rank = count;
+            prevWinCount = item.getWinCount();
+            responses.add(new GameItemResponse(item, rank));
+        }
+        return responses;
     }
 }

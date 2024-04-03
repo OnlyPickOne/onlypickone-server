@@ -54,7 +54,7 @@ public class GameController {
 
     @GetMapping("/{game-id}/items")
     ApiResponse<List<GameItemResponse>> showGameItems(@PathVariable("game-id") Long gameId,
-                                                      @RequestParam Long count) {
+                                                      @RequestParam int count) {
         return ApiResponse.onSuccess(OK, gameService.showGameItems(gameId, count));
     }
 }
