@@ -1,4 +1,4 @@
-# OnlyPickOne - 이상형 월드컵 iOS 앱 출시 및 서비스
+    # OnlyPickOne - 이상형 월드컵 iOS 앱 출시 및 서비스
 
 <div align="center">
 <img width="1024" alt="image" src="https://github.com/110w110/110w110/assets/87888411/ea4fa14d-c71a-43ce-831c-11cf149d3f9d">
@@ -29,7 +29,7 @@
 
 - 2023.09.05 - 프로젝트 설계 및 구현 시작
 - 2023.12.04 - v1.0.0 앱스토어 출시 완료
-- 2024.04.04 - v1.0.2 업데이트 배포 
+- 2024.04.04 - v1.0.2 업데이트 배포  
 
 ## 📚 기술 스택
 
@@ -116,7 +116,7 @@
 
 ### 앱 출시 완료
 
-2024년 12월 4일 부로 AppStoreConnect에서 앱 심사 최종 승인 후 앱스토어에 출시가 완료되었습니다.
+2023년 12월 4일 부로 AppStoreConnect에서 앱 심사 최종 승인 후 앱스토어에 출시가 완료되었습니다.
 [앱스토어 바로가기 Link](https://apps.apple.com/kr/app/onlypickone/id6469682692)
 
 ### 앱스토어 노출 수
@@ -129,7 +129,7 @@
 ### 다운로드 수
 
 <div align="center">
-<img width="480" alt="image" src="https://github.com/OnlyPickOne/onlypickone-ios/assets/87888411/f8b51077-c7d1-45c8-a96b-7793b44c2b61">
+<img width="480" alt="image" src="https://github.com/OnlyPickOne/onlypickone-server/assets/71253970/2b8f5882-2d3c-45ab-ac22-f80342ed5eac">
 </div>
 2월 기준 실제 앱스토어에서 다운로드 된 통계입니다. 별도의 홍보 없이도 매일 꾸준하게 다운로드가 되고 있음을 확인할 수 있습니다.
 
