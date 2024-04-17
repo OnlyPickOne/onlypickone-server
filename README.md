@@ -1,4 +1,4 @@
-    # OnlyPickOne - 이상형 월드컵 iOS 앱 출시 및 서비스
+# OnlyPickOne - 이상형 월드컵 iOS 앱 출시 및 서비스
 
 <div align="center">
 <img width="1024" alt="image" src="https://github.com/110w110/110w110/assets/87888411/ea4fa14d-c71a-43ce-831c-11cf149d3f9d">
